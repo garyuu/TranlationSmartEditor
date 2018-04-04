@@ -1,11 +1,46 @@
 #testButton {
   width: 200px;
-  height: 200px;
-  float: left;
-  background:rgb(52, 232, 209);"
+  height: 80px;
+  background:rgb(52, 232, 209);";
+  font-size: 50px;
+  text-align: center;
 }
 
 #video {
   width: auto;
+  height: 100%;
+}
+
+aside {
+  width: 60%;
   height: 60%;
+  position: fixed;
+}
+
+main {
+  margin-left: 60%;
+}
+
+.colorblock {
+  width: auto;
+  height: auto;
+  display: block;
+}
+
+.colorlist {
+  width: 50px;
+}
+
+.title {
+  width: 100px;
+}
+
+.size {
+  width: 50px;
+}
+
+textarea {
+  margin-left: 30px;
+  width: 300px;
+  height: 100px;
 }
