@@ -246,12 +246,13 @@ class SubtitleList {
       for (let j = 0; j < contents.length; j++) { // li
         console.log(`${i} ${j}`);
         const elements = contents[j].childNodes;
+        /*
         this.list[listi].list[j].isRender = elements[0].checked;
         this.list[listi].list[j].title = elements[2].value;
         this.list[listi].list[j].color = elements[3].value;
         this.list[listi].list[j].size = elements[5].value;
         this.list[listi].list[j].content = elements[6].value;
-
+        */
         const buf = Object.assign({}, this.list[listi].list[j]);
         result[result.length - 1]['list'].push(buf);
       }
