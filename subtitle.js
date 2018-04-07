@@ -72,7 +72,7 @@ class Content {
     result += `<br />
                <textarea onchange="contentChange('${this.id}', 'content', this)"
                          class="content">${this.content}</textarea>`;
-    result += `<button onclick="copyContent(this)">複製</button>`
+    result += `<button onclick="copyContent(this.previousSibling)">複製</button>`
     return result;
   }
 
@@ -147,25 +147,44 @@ class ContentHaigu extends Content{
 }
 
 class SubtitleContentGroup {
-  constructor(time, type = ContentType.MessageBox) {
-    this.time = time;
+  constructor(time, data = undefined) {
     this.list = [];
-    this.addSubtitleContent(type);
+    if (data) {
+      this.time = data.time;
+      for (let i in data.list){
+        this.addSubtitleContent(data.list[i].type, data.list[i]);
+      }
+    }
+    else {
+      this.time = time;
+    }
   }
 
-  addSubtitleContent(type) {
+  addSubtitleContent(type = ContentType.MessageBox, data = undefined) {
     switch (type) {
       case ContentType.MessageBox:
-        this.list.push(new ContentMessageBox(`${this.time}#${this.list.length}`));
+        if (data)
+          this.list.push(new ContentMessageBox(data.id, data));
+        else
+          this.list.push(new ContentMessageBox(`${this.time}#${this.list.length}`));
         break;
       case ContentType.Comment:
-        this.list.push(new ContentComment(`${this.time}#${this.list.length}`));
+        if (data)
+          this.list.push(new ContentComment(data.id, data));
+        else
+          this.list.push(new ContentComment(`${this.time}#${this.list.length}`));
         break;
       case ContentType.Info:
-        this.list.push(new ContentInfo(`${this.time}#${this.list.length}`));
+        if (data)
+          this.list.push(new ContentInfo(data.id, data));
+        else
+          this.list.push(new ContentInfo(`${this.time}#${this.list.length}`));
         break;
       case ContentType.Haigu:
-        this.list.push(new ContentHaigu(`${this.time}#${this.list.length}`));
+        if (data)
+          this.list.push(new ContentHaigu(data.id, data));
+        else
+          this.list.push(new ContentHaigu(`${this.time}#${this.list.length}`));
         break;
       default:
         throw new Error("Content type error!");
@@ -188,21 +207,31 @@ class SubtitleContentGroup {
 }
 
 class SubtitleList {
-  constructor() {
+  constructor(data = undefined) {
     this.list = [];
+    if (data) {
+      this.title = data.title;
+      for (let i in data.list){
+        this.list.push(new SubtitleContentGroup(0, data.list[i]));
+      }
+    }
+    else {
+      this.title = '';
+    }
   }
 
   addTimeStamp(time){
     let flag = false;
     for (let i = 0; i < this.list.length; i++) {
       if(this.list[i].time >= time - 1e-9 && this.list[i].time <= time + 1e-9) {
-        this.list[i].addSubtitleContent(ContentType.MessageBox);
+        this.list[i].addSubtitleContent();
         flag = true;
         break; // Why not just return?
       }
     }
     if(!flag) {
       const s = new SubtitleContentGroup(time);
+      s.addSubtitleContent();
       this.list.push(s);
       this.sort();
     }
@@ -218,12 +247,13 @@ class SubtitleList {
   }
 
   toHTML(){
-    let result = '';
+    let result = `<input id="title" type="text" value="${this.title}" onchange="SList.title=this.value;" />`;
     this.list.forEach(function(item, index, array){
-      result += item.toHTML() + '<hr />';
+      result += '<hr />' + item.toHTML();
     });
     return result;
   }
+
 
   save() {
     const timeList = document.getElementById('timeList');

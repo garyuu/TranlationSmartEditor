@@ -1,12 +1,28 @@
+let URL;
 let video; // Get the video for future usage
-let SList = new SubtitleList();
+let jsondisplay;
+let timelist;
+let SList;
 
 window.addEventListener('load', function(){
-  document.getElementById("testButton").addEventListener('touchstart', startTouch, false);
-  document.getElementById("testButton").addEventListener('mousedown', startTouch, false);
+  document.getElementById("savebutton").addEventListener('touchstart', startTouch, false);
+  document.getElementById("savebutton").addEventListener('mousedown', startTouch, false);
   video = document.getElementById('video');
+  jsondisplay = document.getElementById('jsondisplay');
+  timelist = document.getElementById('timeList');
+  URL = window.URL || window.webkitURL;
+  console.log(window.localStorage['json']);
+  //showCookies();
+  try {
+    jsondisplay.value = window.localStorage['json'];
+    importJSON(jsondisplay);
+  }
+  catch (e) {
+    throw new Error("Load JSON failed! " + e);
+    SList = new SubtitleList();
+  }
 }, false);
-
+/*
 document.addEventListener('keypress', (e) => {
   const keyName = e.key;
   if (keyName == 's') {
@@ -21,14 +37,13 @@ document.addEventListener('keypress', (e) => {
     SList.save();
   }
 });
-
+*/
 function saveFrameTime(){
   const timeList = document.getElementById('timeList');
   console.log(video.currentTime);
 
   SList.addTimeStamp(video.currentTime);
-  //timeList.innerHTML += `<li onclick="fastSeek(${video.currentTime})">${video.currentTime}</li>`;
-  timeList.innerHTML = SList.toHTML();
+  drawHTML();
 }
 
 function startTouch(){
@@ -54,7 +69,7 @@ function colorChange(element){
 function changeType(id, element){
   const type = element.options[element.selectedIndex].value;
   SList.changeContentType(id, type);
-  document.getElementById('timeList').innerHTML = SList.toHTML();
+  timelist.innerHTML = SList.toHTML();
 }
 
 function contentChange(id, attr, element){
@@ -80,14 +95,94 @@ function contentChange(id, attr, element){
     default:
       throw new Error('Undefined attribute!');
   }
+  saveSerializedData();
 }
 
 function copyContent(element){
-  element.previousSibling.select();
+  try {
+    element.select();
+  }
+  catch {
+    let range = document.getSelection().getRangeAt(0);
+    range.selectNode(element);
+    window.getSelection().addRange(range);
+  }
   document.execCommand('copy');
 }
 
 function deleteContent(id){
   SList.deleteContent(id);
-  document.getElementById('timeList').innerHTML = SList.toHTML();
+  drawHTML();
+}
+
+function toJSON() {
+  return JSON.stringify(SList);
+}
+
+function loadVideo(element) {
+  const file = element.files[0];
+  const type = file.type;
+  let canPlay = video.canPlayType(type);
+  if (canPlay === '') canPlay = 'no';
+  const isError = canPlay === 'no';
+  if (isError) {
+    return
+  }
+  const fileURL = URL.createObjectURL(file)
+  video.setAttribute("src", fileURL);
+  try {
+    video.load();
+  }
+  catch (e){
+    console.log("Loading video error! " + e);
+  }
+}
+
+function importJSON(element){
+  let obj;
+  try {
+    obj = JSON.parse(element.value);
+    console.log(obj);
+    SList = new SubtitleList(obj);
+    drawHTML();
+  }
+  catch (e) {
+    throw new Error("JSON Format incorrect! " + e);
+  }
+}
+
+function drawHTML(){
+  timelist.innerHTML = SList.toHTML();
+  saveSerializedData();
+}
+
+function saveSerializedData() {
+  jsondisplay.value = toJSON();
+  const json = jsondisplay.value;
+  const expire = new Date(Date.now().getDate + 365 * 3);
+  window.localStorage['json'] = json;
+  //document.cookie = "json="+json+"; expire="+expire+"; path=/";
+  //showCookies();
+  console.log(window.localStorage['json']);
+}
+
+function showCookies() {
+  const cookies = getCookieArray();
+  for (let i = 0; i <= cookies.length; i++)
+    console.log(i + ": " + cookies[i]);
+}
+
+function getCookieArray() {
+  return document.cookie.split(';');
+}
+
+function findCookieByKey(key) {
+  const cookies = getCookieArray();
+  const cookieKey = key + "=";
+  for (let i in cookies) {
+    const k = cookies[i].trim();
+    if (k.indexOf(cookieKey) == 0)
+      return k.substring(cookieKey.length, k.length);
+  }
+  return undefined;
 }

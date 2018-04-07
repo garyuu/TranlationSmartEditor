@@ -10,26 +10,21 @@
 </head>
 <body>
   <aside style="float:left;">
-    <video id="video" src="Videos/29話_本家.mp4" controls="controls"></video>
-    <div id="testButton">Save</div>
+    <input id="videobrowser" type="file" onchange="loadVideo(this)" accept="video/*"/>
+    <br />
+    <video id="video" controls="controls"></video>
+    <div id="savebutton">Save</div>
+    <textarea id="jsondisplay">123</textarea>
+    <div id="jsoncontrol">
+      <button onclick="copyContent(document.getElementById('jsondisplay'))">複製JSON</button>
+      <br />
+      <br />
+      <button onclick="importJSON(document.getElementById('jsondisplay'))">導入JSON</button>
+    </div>
   </aside>
   <main>
-    <button onclick="saveFrameTime()">Save</button>
-    <input type="number" id="seekTimeValue" step="0.1" />
-    <button onclick="fastSeek()">Jump</button>
-    <ul id='timeList'>
-      <li onclick="fastSeek(12.3);">
-        <h4>
-          Idx:
-          <span id='index'>1</span>
-        </h4>
-        <p>
-          Time=
-          <span id='time'>12.3</span>
-        </p>
-        <textarea></textarea>
-      </li>
-    </ul>
+    <button onclick="SList = new SubtitleList();drawHTML();">清空</button>
+    <ul id='timeList'></ul>
   </main>
 </body>
 </html>
