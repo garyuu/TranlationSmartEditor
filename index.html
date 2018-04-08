@@ -12,7 +12,7 @@
   <aside style="float:left;">
     <input id="videobrowser" type="file" onchange="loadVideo(this)" accept="video/*"/>
     <br />
-    <video id="video" controls="controls"></video>
+    <video id="video" onclick="if(this.paused){this.play();}else{this.pause();}"></video>
     <div id="savebutton">Save</div>
     <textarea id="jsondisplay">123</textarea>
     <div id="jsoncontrol">

@@ -87,7 +87,7 @@ class Content {
     colors.forEach(function(item, index, array){
       let selected = item == color ? ' selected="selected" ' : '';
       result += `<option value="${item}" class="colorblock"
-                         ${selected} style="background: ${item}"></option>`;
+                         ${selected} style="background: ${item}">${item}</option>`;
     });
     result += '</select>';
     colorListHtml = result;
@@ -249,7 +249,10 @@ class SubtitleList {
   toHTML(){
     let result = `<input id="title" type="text" value="${this.title}" onchange="SList.title=this.value;" />`;
     this.list.forEach(function(item, index, array){
-      result += '<hr />' + item.toHTML();
+      if (item.list.length > 0)
+        result += '<hr />' + item.toHTML();
+      else
+        array.splice(index, 1);
     });
     return result;
   }

@@ -5,7 +5,7 @@ let timelist;
 let SList;
 
 window.addEventListener('load', function(){
-  document.getElementById("savebutton").addEventListener('touchstart', startTouch, false);
+  //document.getElementById("savebutton").addEventListener('touchstart', startTouch, false);
   document.getElementById("savebutton").addEventListener('mousedown', startTouch, false);
   video = document.getElementById('video');
   jsondisplay = document.getElementById('jsondisplay');

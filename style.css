@@ -1,11 +1,11 @@
 aside {
-  width: 60%;
-  height: 60%;
+  width: 40%;
+  height: 100%;
   position: fixed;
 }
 
 main {
-  margin-left: 60%;
+  margin-left: 50%;
 }
 
 #savebutton {
@@ -27,8 +27,8 @@ main {
 }
 
 #video {
-  width: auto;
-  height: 100%;
+  width: 100%;
+  height: auto;
   display: block;
 }
 
@@ -47,7 +47,7 @@ main {
   height: 80px;
   display: inline-block;
   vertical-align: top;
-  
+
 }
 
 .colorblock {
