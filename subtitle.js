@@ -250,7 +250,7 @@ class SubtitleList {
     let result = `<input id="title" type="text" value="${this.title}" onchange="SList.title=this.value;" />`;
     for (let i = 0; i < this.list.length; i++){
       if (this.list.length > 0)
-        result += '<hr />' + this.list[i].toHTML();
+        result += '<hr />' + this.list[i].list.toHTML();
       else {
         this.list.splice(i, 1);
         i--;
@@ -335,7 +335,7 @@ class SubtitleList {
 
   cleanEmptyGroups(){
     for (let i = 0; i < this.list.length; i++) {
-      if (this.list[i].length == 0) {
+      if (this.list[i].list.length == 0) {
         this.list.splice(i, 1);
         i--;
       }
