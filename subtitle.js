@@ -350,6 +350,6 @@ class SubtitleList {
       const orgId = item.id.split("#");
       item.id = `${orgId[0]}#${index}`;
     });
-    cleanEmptyGroups();
+    this.cleanEmptyGroups();
   }
 }
