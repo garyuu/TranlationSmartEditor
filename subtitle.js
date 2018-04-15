@@ -248,12 +248,14 @@ class SubtitleList {
 
   toHTML(){
     let result = `<input id="title" type="text" value="${this.title}" onchange="SList.title=this.value;" />`;
-    this.list.forEach(function(item, index, array){
-      if (item.list.length > 0)
-        result += '<hr />' + item.toHTML();
-      else
-        array.splice(index, 1);
-    });
+    for (let i = 0; i < this.list.length; i++){
+      if (this.list.length > 0)
+        result += '<hr />' + this.list[i].toHTML();
+      else {
+        this.list.splice(i, 1);
+        i--;
+      }
+    }
     return result;
   }
 
@@ -331,6 +333,15 @@ class SubtitleList {
     }
   }
 
+  cleanEmptyGroups(){
+    for (let i = 0; i < this.list.length; i++) {
+      if (this.list[i].length == 0) {
+        this.list.splice(i, 1);
+        i--;
+      }
+    }
+  }
+
   deleteContent(id){
     const idPair = id.split("#");
     const group = this.getContentGroupByTime(idPair[0]);
@@ -339,5 +350,6 @@ class SubtitleList {
       const orgId = item.id.split("#");
       item.id = `${orgId[0]}#${index}`;
     });
+    cleanEmptyGroups();
   }
 }
