@@ -249,8 +249,8 @@ class SubtitleList {
   toHTML(){
     let result = `<input id="title" type="text" value="${this.title}" onchange="SList.title=this.value;" />`;
     for (let i = 0; i < this.list.length; i++){
-      if (this.list.length > 0)
-        result += '<hr />' + this.list[i].list.toHTML();
+      if (this.list[i].list.length > 0)
+        result += '<hr />' + this.list[i].toHTML();
       else {
         this.list.splice(i, 1);
         i--;
