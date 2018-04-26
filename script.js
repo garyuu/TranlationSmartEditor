@@ -39,11 +39,10 @@ document.addEventListener('keypress', (e) => {
 });
 */
 function saveFrameTime(){
-  const timeList = document.getElementById('timeList');
   console.log(video.currentTime);
 
   SList.addTimeStamp(video.currentTime);
-  drawHTML();
+  //drawHTML();
 }
 
 function startTouch(){
@@ -152,7 +151,7 @@ function importJSON(element){
 }
 
 function drawHTML(){
-  timelist.innerHTML = SList.toHTML();
+  document.getElementById("main").appendChild(SList.toHTML());
   saveSerializedData();
 }
 
