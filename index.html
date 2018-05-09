@@ -3,28 +3,36 @@
 <head>
   <title>TranslationSmartEditor</title>
   <meta charset="utf-8" />
-  <!--<script src="jquery-3.3.1.slim.js"></script>-->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
   <script src="subtitle.js"></script>
   <script src="script.js"></script>
   <link href="style.css" rel="stylesheet">
 </head>
 <body>
-  <aside style="float:left;">
-    <input id="videobrowser" type="file" onchange="loadVideo(this)" accept="video/*"/>
-    <br />
-    <video id="video" onclick="if(this.paused){this.play();}else{this.pause();}"></video>
-    <div id="savebutton">Save</div>
-    <textarea id="jsondisplay">123</textarea>
+  <aside>
+    <div id="videoArea">
+      <input id="videoBrowser" type="file" @change="loadVideo" accept="video/*"/>
+      <video id="video" @click="clickVideo" :controls="videoController"></video>
+      <div id="savebutton">{{ saveButtonText }}</div>
+    <textarea id="jsondisplay">{{ json }}</textarea>
     <div id="jsoncontrol">
-      <button onclick="copyContent(document.getElementById('jsondisplay'))">複製JSON</button>
-      <br />
-      <br />
-      <button onclick="importJSON(document.getElementById('jsondisplay'))">導入JSON</button>
+      <div id="copyJsonButton" @click="copyJson">{{ copyButtonText }}</div>
+      <div id="importJSONButton" @click="importJSON">{{ importButtonJson }}</div>
     </div>
   </aside>
-  <main id="main">
-    <button onclick="SList = new SubtitleList();drawHTML();">清空</button>
-    <!--<ul id='timeList'></ul>-->
-  </main>
+  <div id="editArea">
+    <header>
+      <div id="resetButton" @click="resetAll">{{ resetButtonText }}</div>
+      <input id="title" type="text" :value="value" />
+    </header>
+    <main >
+      <section v-for="group in groups">
+        <time>{{ frametime }}</time>
+        <article v-for="content in group.contents">
+
+        </article>
+      </section>
+    </main>
+  </div>
 </body>
 </html>
