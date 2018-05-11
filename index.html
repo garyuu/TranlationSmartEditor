@@ -13,9 +13,9 @@
     <div id="videoArea">
       <input id="videoBrowser" type="file" @change="loadVideo" accept="video/*"/>
       <video id="video" @click="clickVideo" :controls="videoController"></video>
-      <div id="savebutton">{{ saveButtonText }}</div>
-    <textarea id="jsondisplay">{{ json }}</textarea>
-    <div id="jsoncontrol">
+      <div id="saveButton">{{ saveButtonText }}</div>
+    <textarea id="jsonDisplay">{{ json }}</textarea>
+    <div id="jsonControl">
       <div id="copyJsonButton" @click="copyJson">{{ copyButtonText }}</div>
       <div id="importJSONButton" @click="importJSON">{{ importButtonJson }}</div>
     </div>
@@ -25,11 +25,21 @@
       <div id="resetButton" @click="resetAll">{{ resetButtonText }}</div>
       <input id="title" type="text" :value="value" />
     </header>
-    <main >
-      <section v-for="group in groups">
-        <time>{{ frametime }}</time>
-        <article v-for="content in group.contents">
-
+    <main>
+      <section v-for="group in groups" id="group.frametime">
+        <time>{{ group.frametime }}</time>
+        <article v-for="content in group.contents" id="group.frametime + content.id">
+          <type-list @type-change="content.changeType($value)"></type-list>
+          <div>
+            <input type="checkbox" v-model="content.isRender" />
+            <label>
+              {{ content.titleLabel }}
+              <input type="text" v-if = "content.showTitle">
+            </label>
+            <color-selector v-if="content.showColor" @color-change="content.changeColor($value)"></color-selector>
+            <size-selector v-if="content.showSize" @size-change="content.changeSize($value)"></size-selector>
+          </div>
+          <textarea rows="4" cols="40" placeholder="輸入譯文……">{{ content.content }}</textarea>
         </article>
       </section>
     </main>
