@@ -14,6 +14,7 @@
       <input id="videoBrowser" type="file" @change="loadVideo" accept="video/*"/>
       <video id="video" @click="clickVideo" :controls="videoController"></video>
       <div id="saveButton">{{ saveButtonText }}</div>
+    </div>
     <textarea id="jsonDisplay">{{ json }}</textarea>
     <div id="jsonControl">
       <div id="copyJsonButton" @click="copyJson">{{ copyButtonText }}</div>
