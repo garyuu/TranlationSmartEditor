@@ -3,7 +3,7 @@
 <head>
   <title>TranslationSmartEditor</title>
   <meta charset="utf-8" />
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="subtitle.js"></script>
   <script src="script.js"></script>
   <link href="style.css" rel="stylesheet">
@@ -33,9 +33,9 @@
           <type-list @type-change="content.changeType($value)"></type-list>
           <div>
             <input type="checkbox" v-model="content.isRender" />
-            <label>
+            <label v-if="content.showTitle">
               {{ content.titleLabel }}
-              <input type="text" v-if = "content.showTitle">
+              <input type="text">
             </label>
             <color-selector v-if="content.showColor" @color-change="content.changeColor($value)"></color-selector>
             <size-selector v-if="content.showSize" @size-change="content.changeSize($value)"></size-selector>
