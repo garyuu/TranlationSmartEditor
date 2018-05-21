@@ -38,7 +38,7 @@ const TypeDataList = [
       showSize: false,
       defaultColorIndex: 0
     }
-  }
+  },
 ]
 
 const ColorDataList = [
@@ -84,7 +84,7 @@ const SizeDataList = [
   {
     name: "特",
     value: 2.2
-  }
+  },
 ]
 
 Vue.component('drop',{
