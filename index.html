@@ -30,15 +30,20 @@
       <section v-for="group in groups" id="group.frametime">
         <time>{{ group.frametime }}</time>
         <article v-for="content in group.contents" id="group.frametime + content.id">
-          <type-list @type-change="content.changeType($value)"></type-list>
+          <type-list defaultindex="content.type" @type-change="content.changeType($value)"></type-list>
           <div>
             <input type="checkbox" v-model="content.isRender" />
             <label v-if="content.showTitle">
               {{ content.titleLabel }}
-              <input type="text">
+              <input type="text" value="content.title" />
             </label>
-            <color-selector v-if="content.showColor" @color-change="content.changeColor($value)"></color-selector>
-            <size-selector v-if="content.showSize" @size-change="content.changeSize($value)"></size-selector>
+            <color-selector  v-if="content.showColor"
+                            :defaultindex="content.color"
+                            @color-change="content.changeColor($value)"></color-selector>
+            <size-selector  v-if="content.showSize"
+                            defaultindex="content.size"
+                           @size-change="content.changeSize($value)"></size-selector>
+            <div class="deleteButton noselect" @click="group.delete(content.id)">✕</div>
           </div>
           <textarea rows="4" cols="40" placeholder="輸入譯文……">{{ content.content }}</textarea>
         </article>
