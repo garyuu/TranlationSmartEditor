@@ -73,3 +73,127 @@ textarea {
   width: 500px;
   height: 100px;
 }
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+/* Drop Menu */
+.dropFrame {
+  display: block;
+  border: 1px solid black;
+}
+
+.dropSelector {
+  display: block;
+  width: 100%;
+  font-weight: bold;
+}
+
+.dropList {
+  display: block;
+  position: relative;
+}
+
+.dropList > * {
+  display: block;
+  border-top: 1px dashed black;
+  width: 100%;
+}
+/* End Drop Menu */
+
+/* Type List */
+.typeFrame {
+  width: 120px;
+}
+
+.typeSelector {
+  text-align: center;
+  background-color: white;
+}
+
+.typeList {
+  background-color: white;
+}
+
+.typeList > div {
+  text-align: center;
+}
+
+.typeList > div:hover {
+  background-color: lightgray;
+}
+/* End Type List */
+
+/* Color Selector */
+.colorFrame {
+  width: 40px;
+}
+
+.colorSelector {
+  text-align: center;
+}
+
+.colorList > div {
+  text-align: center;
+}
+
+.colorBlockWhite {
+  color: #FFFFFF;
+  background-color: #FFFFFF;
+}
+
+.colorBlockRed {
+  color: #EC0404;
+  background-color: #EC0404;
+}
+
+.colorBlockYellow {
+  color: #FCFC14;
+  background-color: #FCFC14;
+}
+
+.colorBlockGreen {
+  color: #00F904;
+  background-color: #00F904;
+}
+
+.colorBlockBlue {
+  color: #06F7F3;
+  background-color: #06F7F3;
+}
+
+.colorBlockPurple {
+  color: #E80CED;
+  background-color: #E80CED;
+}
+/* End Color Selector */
+
+/* Size Selector */
+.sizeFrame {
+  width: 20px;
+}
+
+.sizeSelector {
+  text-align: center;
+  background-color: white;
+}
+
+.sizeList {
+  background-color: white;
+}
+
+.sizeList > div {
+  text-align: center;
+}
+
+.sizeList > div:hover {
+  background-color: lightgray;
+}
+/* End Size Selector */
