@@ -11,7 +11,7 @@
 <body>
   <aside>
     <div id="videoArea">
-      <input id="videoBrowser" type="file" @change="loadVideo" accept="video/*"/>
+      <input id="videoBrowser" type="file" @change="loadVideo(this.files)" accept="video/*"/>
       <video id="video" @click="clickVideo" :controls="videoController"></video>
       <div id="saveButton">{{ saveButtonText }}</div>
     </div>
