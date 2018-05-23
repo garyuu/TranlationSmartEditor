@@ -4,38 +4,42 @@
   <title>TranslationSmartEditor</title>
   <meta charset="utf-8" />
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script src="subtitle.js"></script>
-  <script src="script.js"></script>
+  <script src="vue_component.js"></script>
+  <script src="data_interface.js"></script>
+  <script src="vue_elements.js" defer></script>
+  <script src="main.js" defer></script>
   <link href="style.css" rel="stylesheet">
 </head>
 <body>
   <aside>
     <div id="videoArea">
       <input id="videoBrowser" type="file" @change="loadVideo(this.files)" accept="video/*"/>
-      <video id="video" @click="clickVideo" :controls="videoController"></video>
+      <video id="video" ref="video" @click="clickVideo" :src="videoSource"></video>
       <div id="saveButton">{{ saveButtonText }}</div>
     </div>
-    <textarea id="jsonDisplay">{{ json }}</textarea>
-    <div id="jsonControl">
-      <div id="copyJsonButton" @click="copyJson">{{ copyButtonText }}</div>
-      <div id="importJSONButton" @click="importJSON">{{ importButtonJson }}</div>
+    <div id="jsonArea">
+      <textarea id="jsonDisplay" v-model="json" ref="json"></textarea>
+      <div id="jsonControl">
+        <div id="exportJsonButton" @click="exportJson">{{ exportButtonText }}</div>
+        <div id="importJSONButton" @click="importJSON">{{ importButtonJson }}</div>
+      </div>
     </div>
   </aside>
   <div id="editArea">
     <header>
       <div id="resetButton" @click="resetAll">{{ resetButtonText }}</div>
-      <input id="title" type="text" :value="value" />
+      <input id="title" type="text" v-model="title" />
     </header>
     <main>
-      <section v-for="group in groups" id="group.frametime">
+      <section v-for="group in groups" :id="group.frametime" @click="jumpToTime(group.frametime)">
         <time>{{ group.frametime }}</time>
-        <article v-for="content in group.contents" id="group.frametime + content.id">
+        <article v-for="(content, index) in group.contents">
           <type-list defaultindex="content.type" @type-change="content.changeType($value)"></type-list>
           <div>
             <input type="checkbox" v-model="content.isRender" />
             <label v-if="content.showTitle">
               {{ content.titleLabel }}
-              <input type="text" value="content.title" />
+              <input type="text" v-model="content.title" />
             </label>
             <color-selector  v-if="content.showColor"
                             :defaultindex="content.color"
@@ -43,9 +47,9 @@
             <size-selector  v-if="content.showSize"
                             defaultindex="content.size"
                            @size-change="content.changeSize($value)"></size-selector>
-            <div class="deleteButton noselect" @click="group.delete(content.id)">✕</div>
+            <div class="deleteButton noselect" @click="delete(group.frametime, index)">✕</div>
           </div>
-          <textarea rows="4" cols="40" placeholder="輸入譯文……">{{ content.content }}</textarea>
+          <textarea rows="4" cols="40" placeholder="輸入譯文……" v-model="content.content"></textarea>
         </article>
       </section>
     </main>

@@ -1,8 +1,8 @@
 const TypeDataList = [
   {
-    name: "對話框",
+    name: '對話框',
     data: {
-      titleLabel: "名字",
+      titleLabel: '名字',
       showTitle: true,
       showColor: true,
       showSize: true,
@@ -10,9 +10,9 @@ const TypeDataList = [
     }
   },
   {
-    name: "註解/上海/空耳",
+    name: '註解/上海/空耳',
     data: {
-      titleLabel: "",
+      titleLabel: '',
       showTitle: false,
       showColor: true,
       showSize: true,
@@ -20,9 +20,9 @@ const TypeDataList = [
     }
   },
   {
-    name: "背景資訊",
+    name: '背景資訊',
     data: {
-      titleLabel: "標題",
+      titleLabel: '標題',
       showTitle: true,
       showColor: false,
       showSize: true,
@@ -30,9 +30,9 @@ const TypeDataList = [
     }
   },
   {
-    name: "俳句",
+    name: '俳句',
     data: {
-      titleLabel: "",
+      titleLabel: '',
       showTitle: false,
       showColor: false,
       showSize: false,
@@ -43,46 +43,46 @@ const TypeDataList = [
 
 const ColorDataList = [
   {
-    name: "白",
+    name: '白',
     class: 'colorBlockWhite'
   },
   {
-    name: "紅",
+    name: '紅',
     class: 'colorBlockRed'
   },
   {
-    name: "黃",
+    name: '黃',
     class: 'colorBlockYellow'
   },
   {
-    name: "綠",
+    name: '綠',
     class: 'colorBlockGreen'
   },
   {
-    name: "藍",
+    name: '藍',
     class: 'colorBlockBlue'
   },
   {
-    name: "紫",
+    name: '紫',
     class: 'colorBlockPurple'
   },
 ]
 
 const SizeDataList = [
   {
-    name: "小",
+    name: '小',
     value: 0.5
   },
   {
-    name: "中",
+    name: '中',
     value: 1.0
   },
   {
-    name: "大",
+    name: '大',
     value: 1.8
   },
   {
-    name: "特",
+    name: '特',
     value: 2.2
   },
 ]
@@ -105,7 +105,7 @@ Vue.component('drop',{
       if (this.index != index)
       {
         this.index = index
-        this.$emit("onselectchange", index)
+        this.$emit('onselectchange', index)
       }
     },
     openList: function(){
