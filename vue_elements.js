@@ -85,25 +85,11 @@ jsonArea = new Vue({
   },
   method: {
     exportJson: function(e){
-      try {
-        this.json = DataInterface.toJSON()
-      }
-      catch(err){
-        console.log("Failed to turn object into json! " + err);
-        return
-      }
+      this.json = DataInterface.exportJSON()
       DataInterface.copy(this.$ref.json)
     },
     importJson: function(e){
-      let obj
-      try {
-        obj = JSON.parse(this.json)
-      }
-      catch(err) {
-        console.log("JSON format is incorrect! " + err);
-        return
-      }
-      DataInterface.create(obj)
+      DataInterface.importJSON(this.json)
     },
   },
 })
@@ -117,13 +103,13 @@ editArea = new Vue({
   },
   methods: {
     resetAll: function(e) {
-      DataInterface.reset()
+      DataInterface.resetEditor()
     },
     jumpToTime: function(time) {
       DataInterface.JumpToTime(time)
     },
     delete: function(frameTime, contentId) {
-      DataInterface.deleteContent(this, contentId)
+      DataInterface.deleteContent(frametime, contentId)
     },
   },
 })
