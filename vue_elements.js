@@ -106,7 +106,7 @@ editArea = new Vue({
       DataInterface.resetEditor()
     },
     jumpToTime: function(time) {
-      DataInterface.JumpToTime(time)
+      DataInterface.JumpToTime(videoArea.$ref.video, time)
     },
     delete: function(frameTime, contentId) {
       DataInterface.deleteContent(frametime, contentId)
