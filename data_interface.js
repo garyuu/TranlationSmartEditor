@@ -137,4 +137,8 @@ class DataInterface {
         group.splice(contentId, 1)
     }
   }
+
+  static saveToLocalStorage() {
+    localStorage['data'] = this.instance.data
+  }
 }

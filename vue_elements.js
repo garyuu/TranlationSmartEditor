@@ -71,10 +71,18 @@ editArea = new Vue({
       DataInterface.resetEditor()
     },
     jumpToTime: function(time) {
-      DataInterface.JumpToTime(videoArea.$ref.video, time)
+      DataInterface.jumpToTime(videoArea.$ref.video, time)
     },
     delete: function(frameTime, contentId) {
       DataInterface.deleteContent(frametime, contentId)
     },
   },
+  watch: {
+    title: function(value) {
+      DataInterface.saveToLocalStorage()
+    }
+    groups: function(value) {
+      DataInterface.saveToLocalStorage()
+    }
+  }
 })
