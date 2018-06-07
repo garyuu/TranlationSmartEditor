@@ -97,10 +97,14 @@ jsonArea = new Vue({
 editArea = new Vue({
   el: '#editArea',
   data: {
-    resetButtonText: 'ResetAll',
     title: '',
     groups: [],
   },
+  computed: {
+    resetButtonText: function(){
+      return 'ResetAll'
+    }
+  }
   methods: {
     resetAll: function(e) {
       DataInterface.resetEditor()

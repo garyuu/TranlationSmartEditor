@@ -17,6 +17,10 @@ class DataInterface {
     return this.TARGET.groups
   }
 
+  get data() {
+    return this.TARGET.$data
+  }
+
   static get instance() {
     return __dataInterface
   }
@@ -52,16 +56,16 @@ class DataInterface {
 
   static importJSON(json) {
     try {
-      obj = JSON.parse(json)
+      obj = DataTransformer.parse(json)
+      this.instance.data = obj
     }
     catch (e) {
       console.log("JSON parse error! " + e)
     }
-    this.instance.$data = transformOldJSONFormat(obj)
   }
 
   static exportJSON() {
-    return JSON.stringify(this.instance.$data)
+    return DataTransformer.stringify(this.instance.data)
   }
 
   static copy(element) {
@@ -77,7 +81,7 @@ class DataInterface {
   }
 
   static resetEditor() {
-    this.instance.$data = []
+    this.instance.data = []
   }
 
   static jumpToTime(video, time) {
