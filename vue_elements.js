@@ -3,45 +3,6 @@ let videoArea
 let jsonArea
 let editArea
 
-class Content {
-  constructor(type, isRender, title, color, size,
-              titleLabel, showTitle, showColor, showSize){
-    this.type = type
-    this.isRender = isRender
-    this.title = title
-    this.color = color
-    this.size = size
-    this.titleLabel = titleLabel
-    this.showTitle = showTitle
-    this.showColor = showColor
-    this.showSize = showSize
-  }
-
-  changeType(data){
-    this.type = data[0]
-    this.titleLabel = data[1].titleLabel
-    this.showTitle = data[1].showTitle
-    this.showColor = data[1].showColor
-    this.showSize = data[1].showSize
-    this.color = data[1].defaultColorIndex
-  }
-
-  changeColor(data){
-    this.color = data[0]
-  }
-
-  changeSize(data){
-    this.size = data[0]
-  }
-}
-
-class Group {
-  constructor(frametime) {
-    this.frametime = frametime
-    this.contents = []
-  }
-}
-
 videoArea = new Vue({
   el: '#videoArea',
   data: {
