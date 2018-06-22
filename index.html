@@ -51,7 +51,7 @@
                            @size-change="content.changeSize($value)"></size-selector>
             <div class="deleteButton noselect" @click="delete(group.frametime, index)">✕</div>
           </div>
-          <textarea rows="4" cols="40" placeholder="輸入譯文……" v-model="content.content"></textarea>
+          <textarea :class="sizeClass(content.size)" rows="4" cols="40" placeholder="輸入譯文……" v-model="content.content"></textarea>
         </article>
       </section>
     </main>

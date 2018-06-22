@@ -71,18 +71,22 @@ const ColorDataList = [
 const SizeDataList = [
   {
     name: '小',
-    value: 0.5
+    value: 0.5,
+    class: 'sizeStyleSmall'
   },
   {
     name: '中',
-    value: 1.0
+    value: 1.0,
+    class: 'sizeStyleNormal'
   },
   {
     name: '大',
-    value: 1.8
+    value: 1.5,
+    class: 'sizeStyleLarge'
   },
   {
     name: '特',
-    value: 2.2
+    value: 2.0,
+    class: 'sizeStyleHuge'
   },
 ]

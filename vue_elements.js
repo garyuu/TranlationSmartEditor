@@ -76,6 +76,9 @@ editArea = new Vue({
     delete: function(frameTime, contentId) {
       DataInterface.deleteContent(frametime, contentId)
     },
+    sizeClass: function(sizeIndex) {
+      return SizeDataList[sizeIndex].class
+    },
   },
   watch: {
     title: function(value) {

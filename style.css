@@ -196,4 +196,20 @@ textarea {
 .sizeList > div:hover {
   background-color: lightgray;
 }
+
+.sizeStyleSmall {
+  font-size: 0.5em;
+}
+
+.sizeStyleNormal {
+  font-size: 1em;
+}
+
+.sizeStyleLarge {
+  font-size: 1.5em;
+}
+
+.sizeStyleHuge {
+  font-size: 2.0em;
+}
 /* End Size Selector */
