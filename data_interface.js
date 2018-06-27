@@ -13,23 +13,6 @@ class Content {
     this.showColor = showColor
     this.showSize = showSize
   }
-
-  changeType(data){
-    this.type = data[0]
-    this.titleLabel = data[1].titleLabel
-    this.showTitle = data[1].showTitle
-    this.showColor = data[1].showColor
-    this.showSize = data[1].showSize
-    this.color = data[1].defaultColorIndex
-  }
-
-  changeColor(data){
-    this.color = data[0]
-  }
-
-  changeSize(data){
-    this.size = data[0]
-  }
 }
 
 class Group {
@@ -76,14 +59,18 @@ class DataInterface {
     this.instance = new DataInterface(editElement)
   }
 
-  static saveTime(frameTime){
+  static recordTime(frameTime){
     let index = this.findNearestGroupIndex(frameTime)
     if (this.instance.groups[index].frametime == frameTime)
+    {
+      this.insertItemFromLocalStorage(index)
       this.instance.groups.splice(index, 0, new Group(frameTime))
+    }
     const typeData = TypeDataList[0]
     this.instance.groups[index].contents.push(new Content(
         0, true, "", typeData.defaultColorIndex, 1, typeData.titleLabel,
         typeData.showTitle, typeData.showColor, typeData.showSize))
+    this.saveGroupToLocalStorage(index)
   }
 
   static findNearestGroupIndex(frameTime) {
@@ -120,25 +107,85 @@ class DataInterface {
   }
 
   static resetEditor() {
-    this.instance.data = []
+    this.instance.title = ''
+    this.instance.groups = []
+    localStorage.clear()
+    localStorage['title'] = ''
+    localStorage['groupSize'] = 0
+  }
+
+  static changeContentType(groupId, contentId, data) {
+    let content = this.instance.groups[groupId].contents[contentId]
+    content.type = data[0]
+    content.titleLabel = data[1].titleLabel
+    content.showTitle = data[1].showTitle
+    content.showColor = data[1].showColor
+    content.showSize = data[1].showSize
+    content.color = data[1].defaultColorIndex
+  }
+
+  static changeContentColor(groupId, contentId, data) {
+    let content = this.instance.groups[groupId].contents[contentId]
+    content.color = data[0]
+  }
+
+  static changeContentSize(groupId, contentId, data) {
+    let content = this.instance.groups[groupId].contents[contentId]
+    content.size = data[0]
   }
 
   static jumpToTime(video, time) {
     video.currentTime = parseFloat(time)
   }
 
-  static deleteContent(frameTime, contentId) {
-    let index = findNearestGroupIndex(frameTime)
-    let group = this.instance.groups[index]
-    if (group.frametime == frameTime) {
-      if (group.contents.length <= 1)
-        this.instance.groups.splice(index, 1)
-      else
-        group.splice(contentId, 1)
+  static deleteContent(groupId, contentId) {
+    let group = this.instance.groups[groupId]
+    if (group.contents.length <= 1)
+    {
+      this.instance.groups.splice(groupId, 1)
+      this.removeItemFromLocalStorage(groupId)
+    }
+    else
+    {
+      group.splice(contentId, 1)
+      this.saveGroupToLocalStorage(groupId)
     }
   }
 
-  static saveToLocalStorage() {
-    localStorage['data'] = this.instance.data
+  static saveTitleToLocalStorage() {
+    localStorage['title'] = this.instance.title
+  }
+
+  static saveGroupToLocalStorage(index) {
+    localStorage[index.toString()] = JSON.stringify(this.instance.groups[index])
+  }
+
+  static loadDataFromLocalStorage() {
+    if (localStorage['title'] !== null){
+      this.instance.title = localStorage['title']
+      this.instance.groups = []
+      const size = parseInt(localStorage['groupSize'])
+      for (let i = 0; i < size; i++) {
+        const obj = JSON.parse(localStorage[i.toString()])
+        let group = new Group(obj.frametime)
+        group.contents = obj.contents.map(function(val, index){
+          let content = new Content(val.type, val.isRender, val.title, val.color, val.size,
+                                    val.titleLabel, val.showTitle, val.showColor, val.showSize)
+        })
+        this.instance.groups.push(group)
+      }
+    }
+  }
+
+  static removeItemFromLocalStorage(index) {
+    for (let i = index; i < this.instance.groups.length; i++)
+      localStorage[i.toString()] = localStorage[(i+1).toString()]
+    localStorage['groupSize'] = this.instance.groups.length
+  }
+
+  static insertItemFromLocalStorage(index) {
+    for (let i = this.instance.groups.length - 1; i > index; i--)
+      localStorage[i.toString()] = localStorage[(i-1).toString()]
+    localStorage['groupSize'] = this.instance.groups.length
   }
 }

@@ -7,7 +7,7 @@ videoArea = new Vue({
   el: '#videoArea',
   data: {
     videoSource: '',
-    saveButtonText: 'Save',
+    recordButtonText: 'Record',
   },
   methods: {
     loadVideo: function(e){
@@ -31,8 +31,8 @@ videoArea = new Vue({
         this.$ref.video.removeAttribute('controls')
       }
     },
-    clickSave: function(e){
-      DataInterface.saveTime(this.$ref.video.currentTime)
+    clickRecord: function(e){
+      DataInterface.recordTime(this.$ref.video.currentTime)
     },
   },
 })
@@ -44,7 +44,7 @@ jsonArea = new Vue({
     exportButtonText: 'Export',
     importButtonText: 'Import',
   },
-  method: {
+  methods: {
     exportJson: function(e){
       this.json = DataInterface.exportJSON()
       DataInterface.copy(this.$ref.json)
@@ -65,7 +65,7 @@ editArea = new Vue({
     resetButtonText: function(){
       return 'ResetAll'
     }
-  }
+  },
   methods: {
     resetAll: function(e) {
       DataInterface.resetEditor()
@@ -73,19 +73,32 @@ editArea = new Vue({
     jumpToTime: function(time) {
       DataInterface.jumpToTime(videoArea.$ref.video, time)
     },
-    delete: function(frameTime, contentId) {
-      DataInterface.deleteContent(frametime, contentId)
+    delete: function(groupId, contentId) {
+      DataInterface.deleteContent(groupId, contentId)
     },
     sizeClass: function(sizeIndex) {
       return SizeDataList[sizeIndex].class
     },
+    colorClass: function(colorIndex) {
+      return ColorDataList[colorIndex].class
+    },
+    titleChange: function(){
+      DataInterface.saveTitleToLocalStorage()
+    },
+    groupChange: function(index) {
+      DataInterface.saveGroupToLocalStorage(index)
+    },
+    changeType: function(groupId, contentId, data) {
+      DataInterface.changeContentType(groupId, contentId, data)
+      this.groupChange(groupId)
+    },
+    changeColor: function(groupId, contentId, data) {
+      DataInterface.changeContentColor(groupId, contentId, data)
+      this.groupChange(groupId)
+    },
+    changeSize: function(groupId, contentId, data) {
+      DataInterface.changeContentSize(groupId, contentId, data)
+      this.groupChange(groupId)
+    },
   },
-  watch: {
-    title: function(value) {
-      DataInterface.saveToLocalStorage()
-    }
-    groups: function(value) {
-      DataInterface.saveToLocalStorage()
-    }
-  }
 })

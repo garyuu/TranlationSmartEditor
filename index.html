@@ -16,8 +16,8 @@
   <aside>
     <div id="videoArea">
       <input id="videoBrowser" type="file" @change="loadVideo(this.files)" accept="video/*"/>
-      <video id="video" ref="video" @click="clickVideo" :src="videoSource"></video>
-      <div id="saveButton">{{ saveButtonText }}</div>
+      <video id="video" ref="video" @click="clickVideo()" :src="videoSource"></video>
+      <div id="recordButton" @click="recordTime()">{{ recordButtonText }}</div>
     </div>
     <div id="jsonArea">
       <textarea id="jsonDisplay" v-model="json" ref="json"></textarea>
@@ -30,28 +30,28 @@
   <div id="editArea">
     <header>
       <div id="resetButton" @click="resetAll">{{ resetButtonText }}</div>
-      <input id="title" type="text" v-model="title" />
+      <input id="title" type="text" v-model="title" @change="titleChange()" />
     </header>
     <main>
-      <section v-for="group in groups" :id="group.frametime" @click="jumpToTime(group.frametime)">
-        <time>{{ group.frametime }}</time>
-        <article v-for="(content, index) in group.contents">
-          <type-list defaultindex="content.type" @type-change="content.changeType($value)"></type-list>
+      <section v-for="(group, groupIndex) in groups" :id="group.frametime" @click="jumpToTime(group.frametime)">
+        <time>{{ groupIndex + ": " + group.frametime }}</time>
+        <article v-for="(content, contentIndex) in group.contents">
+          <type-list defaultindex="content.type" @type-change="changeType(groupIndex, contentIndex, $value)"></type-list>
           <div>
-            <input type="checkbox" v-model="content.isRender" />
+            <input type="checkbox" v-model="content.isRender" @change="groupChange(groupIndex)" />
             <label v-if="content.showTitle">
               {{ content.titleLabel }}
-              <input type="text" v-model="content.title" />
+              <input :class="colorClass(content.color)" type="text" v-model="content.title" @change="groupChange(groupIndex)" />
             </label>
             <color-selector  v-if="content.showColor"
                             :defaultindex="content.color"
-                            @color-change="content.changeColor($value)"></color-selector>
+                            @color-change="changeColor(groupIndex, contentIndex, $value)"></color-selector>
             <size-selector  v-if="content.showSize"
                             defaultindex="content.size"
-                           @size-change="content.changeSize($value)"></size-selector>
-            <div class="deleteButton noselect" @click="delete(group.frametime, index)">✕</div>
+                           @size-change="changeSize(groupIndex, contentIndex, $value)"></size-selector>
+            <div class="deleteButton noselect" @click="delete(groupIndex, contentIndex)">✕</div>
           </div>
-          <textarea :class="sizeClass(content.size)" rows="4" cols="40" placeholder="輸入譯文……" v-model="content.content"></textarea>
+          <textarea :class="sizeClass(content.size)" rows="4" cols="40" placeholder="輸入譯文……" v-model="content.content" @change="groupChange(groupIndex)"></textarea>
         </article>
       </section>
     </main>
