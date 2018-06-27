@@ -15,24 +15,24 @@ videoArea = new Vue({
       const type = file.type;
       this.videoSource = URL.createObjectURL(file)
       try {
-        this.$ref.video.load();
+        this.$refs.video.load();
       }
       catch (err){
         console.log("Loading video error! " + err);
       }
     },
     clickVideo: function(e){
-      if (this.$ref.video.paused) {
-        this.$ref.video.play()
-        this.$ref.video.setAttribute('controls')
+      if (this.$refs.video.paused) {
+        this.$refs.video.play()
+        this.$refs.video.setAttribute('controls', 'controls')
       }
       else {
-        this.$ref.video.pause()
-        this.$ref.video.removeAttribute('controls')
+        this.$refs.video.pause()
+        this.$refs.video.removeAttribute('controls')
       }
     },
     clickRecord: function(e){
-      DataInterface.recordTime(this.$ref.video.currentTime)
+      DataInterface.recordTime(this.$refs.video.currentTime)
     },
   },
 })
@@ -45,11 +45,11 @@ jsonArea = new Vue({
     importButtonText: 'Import',
   },
   methods: {
-    exportJson: function(e){
+    exportJSON: function(e){
       this.json = DataInterface.exportJSON()
-      DataInterface.copy(this.$ref.json)
+      DataInterface.copy(this.$refs.json)
     },
-    importJson: function(e){
+    importJSON: function(e){
       DataInterface.importJSON(this.json)
     },
   },
@@ -71,9 +71,9 @@ editArea = new Vue({
       DataInterface.resetEditor()
     },
     jumpToTime: function(time) {
-      DataInterface.jumpToTime(videoArea.$ref.video, time)
+      DataInterface.jumpToTime(videoArea.$refs.video, time)
     },
-    delete: function(groupId, contentId) {
+    deleteContent: function(groupId, contentId) {
       DataInterface.deleteContent(groupId, contentId)
     },
     sizeClass: function(sizeIndex) {

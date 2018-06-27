@@ -7,7 +7,7 @@
   <script src="data_list.js"></script>
   <script src="data_transformer.js"></script>
   <script src="data_interface.js"></script>
-  <script src="vue_component.js"></script>
+  <script src="vue_components.js"></script>
   <script src="vue_elements.js" defer></script>
   <script src="main.js" defer></script>
   <link href="style.css" rel="stylesheet">
@@ -17,13 +17,13 @@
     <div id="videoArea">
       <input id="videoBrowser" type="file" @change="loadVideo(this.files)" accept="video/*"/>
       <video id="video" ref="video" @click="clickVideo()" :src="videoSource"></video>
-      <div id="recordButton" @click="recordTime()">{{ recordButtonText }}</div>
+      <div id="recordButton" @click="clickRecord()">{{ recordButtonText }}</div>
     </div>
     <div id="jsonArea">
       <textarea id="jsonDisplay" v-model="json" ref="json"></textarea>
       <div id="jsonControl">
-        <div id="exportJsonButton" @click="exportJson">{{ exportButtonText }}</div>
-        <div id="importJSONButton" @click="importJSON">{{ importButtonJson }}</div>
+        <div id="exportJSONButton" @click="exportJSON()">{{ exportButtonText }}</div>
+        <div id="importJSONButton" @click="importJSON()">{{ importButtonText }}</div>
       </div>
     </div>
   </aside>
@@ -36,20 +36,20 @@
       <section v-for="(group, groupIndex) in groups" :id="group.frametime" @click="jumpToTime(group.frametime)">
         <time>{{ groupIndex + ": " + group.frametime }}</time>
         <article v-for="(content, contentIndex) in group.contents">
-          <type-list defaultindex="content.type" @type-change="changeType(groupIndex, contentIndex, $value)"></type-list>
+          <type-list :defaultindex="content.type" @type-change="changeType(groupIndex, contentIndex, $event)"></type-list>
           <div>
             <input type="checkbox" v-model="content.isRender" @change="groupChange(groupIndex)" />
             <label v-if="content.showTitle">
               {{ content.titleLabel }}
-              <input :class="colorClass(content.color)" type="text" v-model="content.title" @change="groupChange(groupIndex)" />
+              <input :class="colorClass(content.color)" type="text" v-model="content.title" @change="groupChange(groupIndex)" style="background: none" />
             </label>
             <color-selector  v-if="content.showColor"
                             :defaultindex="content.color"
-                            @color-change="changeColor(groupIndex, contentIndex, $value)"></color-selector>
+                            @color-change="changeColor(groupIndex, contentIndex, $event)"></color-selector>
             <size-selector  v-if="content.showSize"
-                            defaultindex="content.size"
-                           @size-change="changeSize(groupIndex, contentIndex, $value)"></size-selector>
-            <div class="deleteButton noselect" @click="delete(groupIndex, contentIndex)">✕</div>
+                           :defaultindex="content.size"
+                           @size-change="changeSize(groupIndex, contentIndex, $event)"></size-selector>
+            <div class="deleteButton noselect" @click="deleteContent(groupIndex, contentIndex)">✕</div>
           </div>
           <textarea :class="sizeClass(content.size)" rows="4" cols="40" placeholder="輸入譯文……" v-model="content.content" @change="groupChange(groupIndex)"></textarea>
         </article>

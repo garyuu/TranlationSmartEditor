@@ -39,6 +39,10 @@ class DataInterface {
     return this.TARGET.groups
   }
 
+  set groups(value) {
+    this.TARGET.groups = value
+  }
+
   get data() {
     return this.TARGET.$data
   }
@@ -61,12 +65,12 @@ class DataInterface {
 
   static recordTime(frameTime){
     let index = this.findNearestGroupIndex(frameTime)
-    if (this.instance.groups[index].frametime == frameTime)
+    if (this.instance.groups.length == 0 || this.instance.groups[index].frametime == frameTime)
     {
       this.insertItemFromLocalStorage(index)
       this.instance.groups.splice(index, 0, new Group(frameTime))
     }
-    const typeData = TypeDataList[0]
+    const typeData = TypeDataList[0].data
     this.instance.groups[index].contents.push(new Content(
         0, true, "", typeData.defaultColorIndex, 1, typeData.titleLabel,
         typeData.showTitle, typeData.showColor, typeData.showSize))
@@ -82,8 +86,9 @@ class DataInterface {
 
   static importJSON(json) {
     try {
-      obj = DataTransformer.parse(json)
-      this.instance.data = obj
+      let obj = DataTransformer.parse(json)
+      this.instance.title = obj.title
+      this.instance.groups = obj.groups
     }
     catch (e) {
       console.log("JSON parse error! " + e)
@@ -161,7 +166,7 @@ class DataInterface {
   }
 
   static loadDataFromLocalStorage() {
-    if (localStorage['title'] !== null){
+    if (localStorage['title'] !== undefined){
       this.instance.title = localStorage['title']
       this.instance.groups = []
       const size = parseInt(localStorage['groupSize'])
