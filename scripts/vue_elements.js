@@ -10,18 +10,19 @@ videoArea = new Vue({
     recordButtonText: 'Record',
   },
   methods: {
-    loadVideo: function(e){
-      const file = e.target.files[0];
+    loadVideo: function(){
+      const file = this.$refs.fileinput.files[0];
       const type = file.type;
       this.videoSource = URL.createObjectURL(file)
       try {
         this.$refs.video.load();
       }
       catch (err){
-        console.log("Loading video error! " + err);
+          console.log("Loading video error! " + err);
       }
     },
-    clickVideo: function(e){
+    clickVideo: function(){
+      /*
       if (this.$refs.video.paused) {
         this.$refs.video.play()
         this.$refs.video.setAttribute('controls', 'controls')
@@ -30,8 +31,9 @@ videoArea = new Vue({
         this.$refs.video.pause()
         this.$refs.video.removeAttribute('controls')
       }
+      */
     },
-    clickRecord: function(e){
+    clickRecord: function(){
       DataInterface.recordTime(this.$refs.video.currentTime)
     },
   },
@@ -45,11 +47,11 @@ jsonArea = new Vue({
     importButtonText: 'Import',
   },
   methods: {
-    exportJSON: function(e){
+    exportJSON: function(){
       this.json = DataInterface.exportJSON()
       DataInterface.copy(this.$refs.json)
     },
-    importJSON: function(e){
+    importJSON: function(){
       DataInterface.importJSON(this.json)
     },
   },
@@ -67,7 +69,7 @@ editArea = new Vue({
     }
   },
   methods: {
-    resetAll: function(e) {
+    resetAll: function() {
       DataInterface.resetEditor()
     },
     jumpToTime: function(time) {
@@ -88,16 +90,16 @@ editArea = new Vue({
     groupChange: function(index) {
       DataInterface.saveGroupToLocalStorage(index)
     },
-    changeType: function(groupId, contentId, data) {
-      DataInterface.changeContentType(groupId, contentId, data)
+    changeType: function(groupId, contentId, index) {
+      DataInterface.changeContentType(groupId, contentId, index)
       this.groupChange(groupId)
     },
-    changeColor: function(groupId, contentId, data) {
-      DataInterface.changeContentColor(groupId, contentId, data)
+    changeColor: function(groupId, contentId, index) {
+      DataInterface.changeContentColor(groupId, contentId, index)
       this.groupChange(groupId)
     },
-    changeSize: function(groupId, contentId, data) {
-      DataInterface.changeContentSize(groupId, contentId, data)
+    changeSize: function(groupId, contentId, index) {
+      DataInterface.changeContentSize(groupId, contentId, index)
       this.groupChange(groupId)
     },
   },

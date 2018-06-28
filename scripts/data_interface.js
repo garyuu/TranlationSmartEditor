@@ -65,10 +65,10 @@ class DataInterface {
 
   static recordTime(frameTime){
     let index = this.findNearestGroupIndex(frameTime)
-    if (this.instance.groups.length == 0 || this.instance.groups[index].frametime == frameTime)
+    if (this.instance.groups.length <= index || this.instance.groups[index].frametime != frameTime)
     {
-      this.insertItemFromLocalStorage(index)
       this.instance.groups.splice(index, 0, new Group(frameTime))
+      this.insertItemFromLocalStorage(index)
     }
     const typeData = TypeDataList[0].data
     this.instance.groups[index].contents.push(new Content(
@@ -119,24 +119,25 @@ class DataInterface {
     localStorage['groupSize'] = 0
   }
 
-  static changeContentType(groupId, contentId, data) {
+  static changeContentType(groupId, contentId, index) {
     let content = this.instance.groups[groupId].contents[contentId]
-    content.type = data[0]
-    content.titleLabel = data[1].titleLabel
-    content.showTitle = data[1].showTitle
-    content.showColor = data[1].showColor
-    content.showSize = data[1].showSize
-    content.color = data[1].defaultColorIndex
+    const data = TypeDataList[index].data
+    content.type = index
+    content.titleLabel = data.titleLabel
+    content.showTitle = data.showTitle
+    content.showColor = data.showColor
+    content.showSize = data.showSize
+    content.color = data.defaultColorIndex
   }
 
-  static changeContentColor(groupId, contentId, data) {
+  static changeContentColor(groupId, contentId, index) {
     let content = this.instance.groups[groupId].contents[contentId]
-    content.color = data[0]
+    content.color = index
   }
 
-  static changeContentSize(groupId, contentId, data) {
+  static changeContentSize(groupId, contentId, index) {
     let content = this.instance.groups[groupId].contents[contentId]
-    content.size = data[0]
+    content.size = index
   }
 
   static jumpToTime(video, time) {
@@ -152,7 +153,7 @@ class DataInterface {
     }
     else
     {
-      group.splice(contentId, 1)
+      group.contents.splice(contentId, 1)
       this.saveGroupToLocalStorage(groupId)
     }
   }
@@ -174,8 +175,10 @@ class DataInterface {
         const obj = JSON.parse(localStorage[i.toString()])
         let group = new Group(obj.frametime)
         group.contents = obj.contents.map(function(val, index){
-          let content = new Content(val.type, val.isRender, val.title, val.color, val.size,
-                                    val.titleLabel, val.showTitle, val.showColor, val.showSize)
+          if (val === null)
+            return null
+          return new Content(val.type, val.isRender, val.title, val.color, val.size,
+                             val.titleLabel, val.showTitle, val.showColor, val.showSize)
         })
         this.instance.groups.push(group)
       }

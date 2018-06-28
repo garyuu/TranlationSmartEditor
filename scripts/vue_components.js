@@ -59,7 +59,7 @@ Vue.component('type-list', {
   },
   methods: {
     changeType: function(index) {
-      this.$emit('type-change', [index, this.typeList[index]])
+      this.$emit('type-change', index)
     }
   },
   template: `<drop :defaultindex="defaultindex"
@@ -91,7 +91,7 @@ Vue.component('color-selector', {
   methods: {
     changeColor: function(index) {
       this.colorselector = 'colorSelector ' + this.colorList[index].class
-      this.$emit('color-change', [index, this.colorList[index]])
+      this.$emit('color-change', index)
     }
   },
   template: `<drop :defaultindex="defaultindex"
@@ -112,7 +112,7 @@ Vue.component('size-selector', {
   },
   methods: {
     changeSize: function(index){
-      this.$emit('size-change', [index, this.sizeList[index]])
+      this.$emit('size-change', index)
     }
   },
   template: `<drop :defaultindex="defaultindex"

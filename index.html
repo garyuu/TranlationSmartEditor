@@ -15,46 +15,55 @@
 <body>
   <aside>
     <div id="videoArea">
-      <input id="videoBrowser" type="file" @change="loadVideo(this.files)" accept="video/*"/>
+      <input id="videoBrowser" type="file" ref="fileinput" @change="loadVideo()" accept="video/*" />
       <video id="video" ref="video" @click="clickVideo()" :src="videoSource"></video>
-      <div id="recordButton" @click="clickRecord()">{{ recordButtonText }}</div>
+      <div id="recordButton" class="noselect" @click="clickRecord()">{{ recordButtonText }}</div>
     </div>
     <div id="jsonArea">
       <textarea id="jsonDisplay" v-model="json" ref="json"></textarea>
       <div id="jsonControl">
-        <div id="exportJSONButton" @click="exportJSON()">{{ exportButtonText }}</div>
-        <div id="importJSONButton" @click="importJSON()">{{ importButtonText }}</div>
+        <div id="exportJSONButton" class="button noselect" @click="exportJSON()">{{ exportButtonText }}</div>
+        <div id="importJSONButton" class="button noselect" @click="importJSON()">{{ importButtonText }}</div>
       </div>
     </div>
   </aside>
-  <div id="editArea">
-    <header>
-      <div id="resetButton" @click="resetAll">{{ resetButtonText }}</div>
+  <main id="editArea">
+    <div id="header">
       <input id="title" type="text" v-model="title" @change="titleChange()" />
-    </header>
-    <main>
+      <div id="resetButton" class="button noselect" @click="resetAll">{{ resetButtonText }}</div>
+      <hr />
+    </div>
+    <div>
       <section v-for="(group, groupIndex) in groups" :id="group.frametime" @click="jumpToTime(group.frametime)">
         <time>{{ groupIndex + ": " + group.frametime }}</time>
         <article v-for="(content, contentIndex) in group.contents">
           <type-list :defaultindex="content.type" @type-change="changeType(groupIndex, contentIndex, $event)"></type-list>
-          <div>
-            <input type="checkbox" v-model="content.isRender" @change="groupChange(groupIndex)" />
-            <label v-if="content.showTitle">
-              {{ content.titleLabel }}
-              <input :class="colorClass(content.color)" type="text" v-model="content.title" @change="groupChange(groupIndex)" style="background: none" />
-            </label>
-            <color-selector  v-if="content.showColor"
-                            :defaultindex="content.color"
-                            @color-change="changeColor(groupIndex, contentIndex, $event)"></color-selector>
-            <size-selector  v-if="content.showSize"
-                           :defaultindex="content.size"
-                           @size-change="changeSize(groupIndex, contentIndex, $event)"></size-selector>
+          <div class="contentExtra">
+            <div>
+              <input type="checkbox" v-model="content.isRender" @change="groupChange(groupIndex)" />
+            </div>
+            <div>
+              <label v-if="content.showTitle">
+                {{ content.titleLabel }}
+                <input :class="colorClass(content.color) + ' contentTitle'" type="text" v-model="content.title" @change="groupChange(groupIndex)" />
+              </label>
+            </div>
+            <div>
+              <color-selector  v-if="content.showColor"
+                              :defaultindex="content.color"
+                              @color-change="changeColor(groupIndex, contentIndex, $event)"></color-selector>
+            </div>
+            <div>
+              <size-selector  v-if="content.showSize"
+                             :defaultindex="content.size"
+                             @size-change="changeSize(groupIndex, contentIndex, $event)"></size-selector>
+            </div>
             <div class="deleteButton noselect" @click="deleteContent(groupIndex, contentIndex)">✕</div>
           </div>
           <textarea :class="sizeClass(content.size)" rows="4" cols="40" placeholder="輸入譯文……" v-model="content.content" @change="groupChange(groupIndex)"></textarea>
         </article>
       </section>
-    </main>
-  </div>
+    </div>
+  </main>
 </body>
 </html>

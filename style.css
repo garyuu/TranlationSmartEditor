@@ -1,17 +1,27 @@
 aside {
-  width: 40%;
-  height: 100%;
   position: fixed;
+  left: 0;
+  width: 35%;
 }
 
 main {
-  margin-left: 50%;
+  padding-top: 60px;
+  margin-left: 35%;
 }
 
-#savebutton {
+#header {
+  position: fixed;
+  left: 35%;
+  top: 0;
+  width: 65%;
+  background: white;
+  padding-top: 5px;
+}
+
+#recordButton {
   width: 300px;
   height: 80px;
-  background: url("savebutton.jpg");
+  background: url("images/savebutton.jpg");
   background-size: 300px 80px;
   font-size: 50px;
   text-align: center;
@@ -22,8 +32,20 @@ main {
 		1px -1px 0 #000,
 		-1px 1px 0 #000,
 		1px 1px 0 #000;
-  display: inline-block;
+  display: block;
   vertical-align: top;
+  border-radius: 4px;
+  margin: 0 auto 5px auto;
+  box-shadow: 4px 4px 2px grey;
+}
+
+#recordButton:active {
+  background-color: #04268fdd;
+  background-blend-mode: multiply;
+  box-shadow: none;
+  position: relative;
+  top: 4px;
+  left: 4px;
 }
 
 #video {
@@ -32,50 +54,97 @@ main {
   display: block;
 }
 
-#jsondisplay {
-  width: 25%;
+#jsonDisplay {
+  display: block;
+  width: 60%;
   height: 80px;
-  display: inline-block;
-  vertical-align: top;
   background: lightgray;
   overflow-y: scroll;
   margin: 0;
   border: 0;
+  margin: 5px auto;
 }
 
-#jsoncontrol {
-  height: 80px;
-  display: inline-block;
-  vertical-align: top;
-
+#jsonControl {
+  width: 60%;
+  height: 50px;
+  display: grid;
+  margin: 0 auto;
 }
 
-.colorblock {
-  width: auto;
-  height: auto;
-  display: block;
+#jsonControl div {
+  grid-row: 1;
+  line-height: 50px;
+  font-size: 30px;
 }
 
-.colorlist {
-  width: 50px;
+#importJSONButton {
+  grid-column: 1;
 }
 
-.title {
-  width: 100px;
+#exportJSONButton {
+  grid-column: 2;
 }
 
-.size {
-  width: 50px;
-}
-
-textarea {
-  margin-left: 30px;
-  width: 500px;
-  height: 100px;
-}
-
-.contentTitle {
+.button {
+  text-align: center;
   color: black;
+  font-weight: bold;
+  /*border: 1px black solid;*/
+  border-radius: 4px;
+  margin: 2px;
+  background: linear-gradient(150deg, #FFFFFF, #AAAAAA);
+  box-shadow: 4px 4px 2px grey;
+}
+
+.button:active {
+  color: white;
+  background: linear-gradient(150deg, #777777, #333333);
+  box-shadow: none;
+  position: relative;
+  top: 4px;
+  left: 4px;
+}
+
+#title {
+  display: inline-block;
+  width: 200px;
+  font-size: 22px;
+}
+
+#resetButton {
+  display: inline-block;
+  width: 100px;
+  line-height: 20px;
+  font-size: 14px;
+}
+
+article {
+  display: block;
+  width: 80%;
+  box-shadow: 0 1px 2px 2px grey;
+  margin: 10px auto 10px 50px;
+  padding: 2px;
+  position: relative;
+}
+
+article textarea {
+  width: 99%;
+}
+
+.contentExtra {
+  width: 100%;
+}
+
+.contentExtra div {
+  display: inline-block;
+}
+
+.deleteButton {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 8px;
 }
 
 .noselect {
@@ -102,13 +171,16 @@ textarea {
 
 .dropList {
   display: block;
-  position: relative;
+  position: absolute;
+  width: inherit;
+  border: 1px solid black;
+  margin-left: -1px;
 }
 
 .dropList > * {
   display: block;
   border-top: 1px dashed black;
-  width: 100%;
+  width: inherit;
 }
 /* End Drop Menu */
 
@@ -128,6 +200,8 @@ textarea {
 
 .typeList > div {
   text-align: center;
+  line-height: 40px;
+  height: 40px;
 }
 
 .typeList > div:hover {
@@ -146,6 +220,7 @@ textarea {
 
 .colorList > div {
   text-align: center;
+  line-height: 40px;
 }
 
 .colorBlockWhite {
@@ -181,7 +256,7 @@ textarea {
 
 /* Size Selector */
 .sizeFrame {
-  width: 20px;
+  width: 40px;
 }
 
 .sizeSelector {
@@ -195,6 +270,7 @@ textarea {
 
 .sizeList > div {
   text-align: center;
+  line-height: 40px;
 }
 
 .sizeList > div:hover {
@@ -202,7 +278,7 @@ textarea {
 }
 
 .sizeStyleSmall {
-  font-size: 0.5em;
+  font-size: 0.75em;
 }
 
 .sizeStyleNormal {
@@ -217,3 +293,8 @@ textarea {
   font-size: 2.0em;
 }
 /* End Size Selector */
+
+.contentTitle {
+  background-color: #BBBBBB;
+  width: 200px;
+}
