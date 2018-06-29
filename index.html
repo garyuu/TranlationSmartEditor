@@ -17,7 +17,7 @@
   <aside>
     <div id="videoArea">
       <input id="videoBrowser" type="file" ref="fileinput" @change="loadVideo()" accept="video/*" />
-      <video id="video" ref="video" @click="clickVideo()" :src="videoSource"></video>
+      <video id="video" ref="video" @click="clickVideo()" :src="videoSource" controls="controls"></video>
       <div id="recordButton" class="noselect" @click="clickRecord()">{{ recordButtonText }}</div>
     </div>
     <div id="jsonArea">

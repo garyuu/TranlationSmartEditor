@@ -78,7 +78,7 @@ class DataInterface {
     this.saveGroupToLocalStorage(index)
     const targetContent = '#' + index + '-' + cIndex;
     setTimeout(function(){
-      $('html,body').animate({scrollTop: $(targetContent).offset().top}, 800)
+      $('html,body').animate({scrollTop: $(targetContent).offset().top}, 500)
       $(targetContent).focus()
     }, 100)
   }
@@ -168,13 +168,14 @@ class DataInterface {
         group.contents.splice(contentId, 1)
         obj.saveGroupToLocalStorage(groupId)
       }
+      if (element != null)
+        element.animate({opacity: 1}, 0)
     }
     element.animate(
       {
         opacity: 0
       }, {
         duration: 500,
-        fill: "forwards",
         complete: onDeleteAnimationDone
       }
     )
