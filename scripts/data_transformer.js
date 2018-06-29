@@ -2,7 +2,7 @@ const DATA_VERSION = 1
 
 class DataTransformer {
   static parse(json) {
-    let obj = JSON.parse(json)
+    let obj = JSON.parse(json.trim())
     switch (obj.ver) {
       case 1:
         try {

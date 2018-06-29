@@ -42,17 +42,16 @@ videoArea = new Vue({
 jsonArea = new Vue({
   el: '#jsonArea',
   data: {
-    json: '',
     exportButtonText: 'Export',
     importButtonText: 'Import',
   },
   methods: {
     exportJSON: function(){
-      this.json = DataInterface.exportJSON()
+      this.$refs.json.value = DataInterface.exportJSON()
       DataInterface.copy(this.$refs.json)
     },
     importJSON: function(){
-      DataInterface.importJSON(this.json)
+      DataInterface.importJSON(this.$refs.json.value)
     },
   },
 })
@@ -102,5 +101,8 @@ editArea = new Vue({
       DataInterface.changeContentSize(groupId, contentId, index)
       this.groupChange(groupId)
     },
+    copyContent: function(groupId, contentId) {
+      DataInterface.copy($('#' + groupId + '-' + contentId + " textarea"))
+    }
   },
 })

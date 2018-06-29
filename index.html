@@ -3,6 +3,7 @@
 <head>
   <title>TranslationSmartEditor</title>
   <meta charset="utf-8" />
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script src="scripts/data_list.js"></script>
   <script src="scripts/data_transformer.js"></script>
@@ -20,7 +21,7 @@
       <div id="recordButton" class="noselect" @click="clickRecord()">{{ recordButtonText }}</div>
     </div>
     <div id="jsonArea">
-      <textarea id="jsonDisplay" v-model="json" ref="json"></textarea>
+      <textarea id="jsonDisplay" ref="json"></textarea>
       <div id="jsonControl">
         <div id="exportJSONButton" class="button noselect" @click="exportJSON()">{{ exportButtonText }}</div>
         <div id="importJSONButton" class="button noselect" @click="importJSON()">{{ importButtonText }}</div>
@@ -35,17 +36,19 @@
     </div>
     <div>
       <section v-for="(group, groupIndex) in groups" :id="group.frametime" @click="jumpToTime(group.frametime)">
-        <time>{{ groupIndex + ": " + group.frametime }}</time>
-        <article v-for="(content, contentIndex) in group.contents">
+        <div class="groupTitle">
+          <span class="groupId">{{ groupIndex }}</span>
+          <time>{{ group.frametime }}</time>
+        </div>
+        <article v-for="(content, contentIndex) in group.contents" :id="groupIndex + '-' + contentIndex" tabindex="0">
+          <input class="isRender" type="checkbox" v-model="content.isRender" @change="groupChange(groupIndex)" />
           <type-list :defaultindex="content.type" @type-change="changeType(groupIndex, contentIndex, $event)"></type-list>
           <div class="contentExtra">
-            <div>
-              <input type="checkbox" v-model="content.isRender" @change="groupChange(groupIndex)" />
-            </div>
-            <div>
+            <div class="copyButton button noselect" @click="copyContent(groupIndex, contentIndex)">Copy</div>
+            <div class="contentTitle">
               <label v-if="content.showTitle">
                 {{ content.titleLabel }}
-                <input :class="colorClass(content.color) + ' contentTitle'" type="text" v-model="content.title" @change="groupChange(groupIndex)" />
+                <input :class="colorClass(content.color) + ' contentTitleInput'" type="text" v-model="content.title" @change="groupChange(groupIndex)" />
               </label>
             </div>
             <div>

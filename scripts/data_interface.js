@@ -71,10 +71,16 @@ class DataInterface {
       this.insertItemFromLocalStorage(index)
     }
     const typeData = TypeDataList[0].data
+    const cIndex = this.instance.groups[index].contents.length
     this.instance.groups[index].contents.push(new Content(
         0, true, "", typeData.defaultColorIndex, 1, typeData.titleLabel,
         typeData.showTitle, typeData.showColor, typeData.showSize))
     this.saveGroupToLocalStorage(index)
+    const targetContent = '#' + index + '-' + cIndex;
+    setTimeout(function(){
+      $('html,body').animate({scrollTop: $(targetContent).offset().top}, 800)
+      $(targetContent).focus()
+    }, 100)
   }
 
   static findNearestGroupIndex(frameTime) {
@@ -89,6 +95,7 @@ class DataInterface {
       let obj = DataTransformer.parse(json)
       this.instance.title = obj.title
       this.instance.groups = obj.groups
+      this.refreshLocalStorage()
     }
     catch (e) {
       console.log("JSON parse error! " + e)
@@ -146,16 +153,31 @@ class DataInterface {
 
   static deleteContent(groupId, contentId) {
     let group = this.instance.groups[groupId]
-    if (group.contents.length <= 1)
-    {
-      this.instance.groups.splice(groupId, 1)
-      this.removeItemFromLocalStorage(groupId)
+    const cIndex = '#' + groupId + '-' + contentId
+    const element = $(cIndex)
+    const obj = this
+    const onDeleteAnimationDone = function(){
+      console.log("DOWN");
+      if (group.contents.length <= 1)
+      {
+        obj.instance.groups.splice(groupId, 1)
+        obj.removeItemFromLocalStorage(groupId)
+      }
+      else
+      {
+        group.contents.splice(contentId, 1)
+        obj.saveGroupToLocalStorage(groupId)
+      }
     }
-    else
-    {
-      group.contents.splice(contentId, 1)
-      this.saveGroupToLocalStorage(groupId)
-    }
+    element.animate(
+      {
+        opacity: 0
+      }, {
+        duration: 500,
+        fill: "forwards",
+        complete: onDeleteAnimationDone
+      }
+    )
   }
 
   static saveTitleToLocalStorage() {
@@ -173,21 +195,38 @@ class DataInterface {
       const size = parseInt(localStorage['groupSize'])
       for (let i = 0; i < size; i++) {
         const obj = JSON.parse(localStorage[i.toString()])
-        let group = new Group(obj.frametime)
+        /*
+        let group = obj;
         group.contents = obj.contents.map(function(val, index){
           if (val === null)
             return null
           return new Content(val.type, val.isRender, val.title, val.color, val.size,
                              val.titleLabel, val.showTitle, val.showColor, val.showSize)
         })
-        this.instance.groups.push(group)
+        */
+        this.instance.groups.push(obj)
       }
     }
   }
 
+  static refreshLocalStorage() {
+    localStorage['title'] = this.instance.title
+    let i;
+    for (i = 0; i < this.instance.groups.length; i++)
+      this.saveGroupToLocalStorage(i)
+    const size = localStorage['groupSize']
+    for (i; i < size; i++)
+      localStorage.removeItem(i.toString())
+    localStorage['groupSize'] = this.instance.groups.length
+  }
+
   static removeItemFromLocalStorage(index) {
-    for (let i = index; i < this.instance.groups.length; i++)
+    let i;
+    for (i = index; i < this.instance.groups.length; i++)
       localStorage[i.toString()] = localStorage[(i+1).toString()]
+    const size = localStorage['groupSize']
+    for (i; i < size; i++)
+      localStorage.removeItem(i.toString())
     localStorage['groupSize'] = this.instance.groups.length
   }
 
