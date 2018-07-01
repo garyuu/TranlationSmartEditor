@@ -6,7 +6,7 @@ let editArea
 videoArea = new Vue({
   el: '#videoArea',
   data: {
-    videoSource: '',
+    videoSource: null,
     recordButtonText: 'Record',
   },
   methods: {
@@ -35,6 +35,10 @@ videoArea = new Vue({
     },
     clickRecord: function(){
       DataInterface.recordTime(this.$refs.video.currentTime)
+    },
+    onTimeUpdate: function(){
+      if (!this.$refs.video.paused)
+        DataInterface.focusCurrentContent(this.$refs.video.currentTime)
     },
   },
 })
