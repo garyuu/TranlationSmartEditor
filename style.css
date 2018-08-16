@@ -82,7 +82,7 @@ main {
   margin: 0 auto;
 }
 
-#jsonControl div, a {
+#jsonControl div, #jsonControl a {
   grid-row: 1;
   line-height: 50px;
   font-size: 30px;
