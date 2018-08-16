@@ -82,10 +82,11 @@ main {
   margin: 0 auto;
 }
 
-#jsonControl div {
+#jsonControl div, a {
   grid-row: 1;
   line-height: 50px;
   font-size: 30px;
+  text-decoration: none;
 }
 
 #importJSONButton {

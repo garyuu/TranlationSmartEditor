@@ -77,15 +77,10 @@ class DataInterface {
         typeData.showTitle, typeData.showColor, typeData.showSize))
     this.saveGroupToLocalStorage(index)
     const targetContent = '#' + index + '-' + cIndex;
-    const slideFunc = this.slideToContent
     setTimeout(function(){
-      slideFunc(targetContent)
-    }, 100)
-  }
-
-  static slideToContent(targetContent){
-      $('html,body').animate({scrollTop: $(targetContent).offset().top - 100}, 500)
+      $('html,body').animate({scrollTop: $(targetContent).offset().top}, 500)
       $(targetContent).focus()
+    }, 100)
   }
 
   static findNearestGroupIndex(frameTime) {
@@ -109,6 +104,14 @@ class DataInterface {
 
   static exportJSON() {
     return DataTransformer.stringify(this.instance.data)
+  }
+
+  static JSONFileName() {
+    return this.instance.title + ".json"
+  }
+
+  static exportJSONFileURL() {
+    return window.URL.createObjectURL(new Blob([this.exportJSON()], {type: 'application/json'}))
   }
 
   static copy(element) {
@@ -240,14 +243,5 @@ class DataInterface {
     for (let i = this.instance.groups.length - 1; i > index; i--)
       localStorage[i.toString()] = localStorage[(i-1).toString()]
     localStorage['groupSize'] = this.instance.groups.length
-  }
-
-  static focusCurrentContent(time) {
-    let index = this.findNearestGroupIndex(time)
-    if (index > 0) index--
-    if (document.activeElement.id.split('-')[0] != index) {
-      const targetContent = $('#' + index + '-0')
-      this.slideToContent(targetContent)
-    }
   }
 }

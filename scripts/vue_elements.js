@@ -57,6 +57,10 @@ jsonArea = new Vue({
     importJSON: function(){
       DataInterface.importJSON(this.$refs.json.value)
     },
+    exportJSONFile: function(){
+      this.$refs.export.download = DataInterface.JSONFileName()
+      this.$refs.export.href = DataInterface.exportJSONFileURL()
+    },
   },
 })
 

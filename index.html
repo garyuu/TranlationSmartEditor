@@ -23,7 +23,10 @@
     <div id="jsonArea">
       <textarea id="jsonDisplay" ref="json"></textarea>
       <div id="jsonControl">
+        <!--
         <div id="exportJSONButton" class="button noselect" @click="exportJSON()">{{ exportButtonText }}</div>
+        -->
+        <a id="exportJSONButton" class="button noselect" href="" download="" @click="exportJSONFile()" ref="export">{{ exportButtonText }}</a>
         <div id="importJSONButton" class="button noselect" @click="importJSON()">{{ importButtonText }}</div>
       </div>
     </div>
