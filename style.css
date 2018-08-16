@@ -1,17 +1,36 @@
+body, div, input, textarea {
+  background-color: #1b1b21;
+  color: white
+}
+
+input, textarea {
+  border-color: #555555;
+}
+
 aside {
-  width: 40%;
-  height: 100%;
   position: fixed;
+  left: 0;
+  width: 35%;
 }
 
 main {
-  margin-left: 50%;
+  padding-top: 60px;
+  margin-left: 35%;
 }
 
-#savebutton {
+#header {
+  position: fixed;
+  left: 35%;
+  top: 0;
+  width: 65%;
+  padding-top: 5px;
+  z-index: 2;
+}
+
+#recordButton {
   width: 300px;
   height: 80px;
-  background: url("savebutton.jpg");
+  background: url("images/savebutton.jpg");
   background-size: 300px 80px;
   font-size: 50px;
   text-align: center;
@@ -22,8 +41,20 @@ main {
 		1px -1px 0 #000,
 		-1px 1px 0 #000,
 		1px 1px 0 #000;
-  display: inline-block;
+  display: block;
   vertical-align: top;
+  border-radius: 4px;
+  margin: 0 auto 5px auto;
+  box-shadow: 4px 4px 2px grey;
+}
+
+#recordButton:active {
+  background-color: #04268fdd;
+  background-blend-mode: multiply;
+  box-shadow: none;
+  position: relative;
+  top: 4px;
+  left: 4px;
 }
 
 #video {
@@ -32,44 +63,295 @@ main {
   display: block;
 }
 
-#jsondisplay {
-  width: 25%;
+#jsonDisplay {
+  display: block;
+  width: 60%;
   height: 80px;
-  display: inline-block;
-  vertical-align: top;
   background: lightgray;
   overflow-y: scroll;
   margin: 0;
   border: 0;
+  margin: 5px auto;
+  color: black;
 }
 
-#jsoncontrol {
-  height: 80px;
+#jsonControl {
+  width: 60%;
+  height: 50px;
+  display: grid;
+  margin: 0 auto;
+}
+
+#jsonControl div, #jsonControl a {
+  grid-row: 1;
+  line-height: 50px;
+  font-size: 30px;
+  text-decoration: none;
+}
+
+#importJSONButton {
+  grid-column: 1;
+}
+
+#exportJSONButton {
+  grid-column: 2;
+}
+
+.button {
+  text-align: center;
+  color: black;
+  font-weight: bold;
+  /*border: 1px black solid;*/
+  border-radius: 4px;
+  margin: 2px;
+  background: linear-gradient(150deg, #FFFFFF, #AAAAAA);
+  box-shadow: 4px 4px 2px #555555;
+}
+
+.button:active {
+  color: white;
+  background: linear-gradient(150deg, #777777, #333333);
+  box-shadow: none;
+  position: relative;
+  top: 4px;
+  left: 4px;
+}
+
+#title {
   display: inline-block;
-  vertical-align: top;
-
+  width: 200px;
+  font-size: 22px;
 }
 
-.colorblock {
-  width: auto;
-  height: auto;
-  display: block;
-}
-
-.colorlist {
-  width: 50px;
-}
-
-.title {
+#resetButton {
+  display: inline-block;
   width: 100px;
+  line-height: 20px;
+  font-size: 14px;
 }
 
-.size {
+article {
+  display: block;
+  width: 80%;
+  box-shadow: 0 1px 2px 2px #555555;
+  margin: 10px auto 10px 50px;
+  padding: 2px;
+  position: relative;
+  transition-property: background;
+  transition-duration: 0.5s;
+}
+
+article:focus {
+  transition-property: background;
+  transition-duration: 0.5s;
+  background-color: #ffff70;
+}
+
+.contentTitle {
+  background: none;
+}
+
+article textarea {
+  width: 99%;
+  transition-property: box-shadow;
+  transition-duration: 0.2s;
+  box-shadow: none;
+}
+
+article textarea:focus {
+  transition-property: box-shadow;
+  transition-duration: 0.2s;
+  box-shadow: 0 0 2px 4px #ff7070;
+}
+
+.groupId {
+  display: inline-block;
+  width: 40px;
+  text-align: right;
+  border: 2px solid grey;
+  padding: 2px;
+}
+
+time {
+  font-size: 0.9em;
+  font-weight: bold;
+  color: grey;
+}
+
+.isRender {
+  display: inline-block;
+}
+
+.contentExtra {
+  background: none;
+  width: 100%;
+}
+
+.contentExtra div {
+  display: inline-block;
+}
+
+.copyButton {
+  font-size: 14px;
   width: 50px;
+  line-height: 24px;
 }
 
-textarea {
-  margin-left: 30px;
-  width: 500px;
-  height: 100px;
+.deleteButton {
+  background: none;
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 8px;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+/* Drop Menu */
+.dropFrame {
+  display: block;
+  border: 1px solid grey;
+}
+
+.dropSelector {
+  display: block;
+  width: 100%;
+  font-weight: bold;
+}
+
+.dropList {
+  display: block;
+  position: absolute;
+  width: inherit;
+  border: 1px solid grey;
+  margin-left: -1px;
+  z-index: 1;
+}
+
+.dropList > * {
+  display: block;
+  border-top: 1px dashed grey;
+  width: inherit;
+}
+/* End Drop Menu */
+
+/* Type List */
+.typeFrame {
+  display: inline-block;
+  width: 120px
+}
+
+.typeSelector {
+  text-align: center;
+}
+
+.typeList {
+}
+
+.typeList > div {
+  text-align: center;
+  line-height: 40px;
+  height: 40px;
+}
+
+.typeList > div:hover {
+  background-color: lightgray;
+}
+/* End Type List */
+
+/* Color Selector */
+.colorFrame {
+  width: 40px;
+}
+
+.colorSelector {
+  text-align: center;
+}
+
+.colorList > div {
+  text-align: center;
+  line-height: 40px;
+}
+
+.colorBlockWhite {
+  color: #FFFFFF;
+  background-color: #FFFFFF;
+}
+
+.colorBlockRed {
+  color: #EC0404;
+  background-color: #EC0404;
+}
+
+.colorBlockYellow {
+  color: #FCFC14;
+  background-color: #FCFC14;
+}
+
+.colorBlockGreen {
+  color: #00F904;
+  background-color: #00F904;
+}
+
+.colorBlockBlue {
+  color: #06F7F3;
+  background-color: #06F7F3;
+}
+
+.colorBlockPurple {
+  color: #E80CED;
+  background-color: #E80CED;
+}
+/* End Color Selector */
+
+/* Size Selector */
+.sizeFrame {
+  width: 40px;
+}
+
+.sizeSelector {
+  text-align: center;
+}
+
+.sizeList {
+}
+
+.sizeList > div {
+  text-align: center;
+  line-height: 40px;
+}
+
+.sizeList > div:hover {
+  background-color: lightgray;
+}
+
+.sizeStyleSmall {
+  font-size: 0.75em;
+}
+
+.sizeStyleNormal {
+  font-size: 1em;
+}
+
+.sizeStyleLarge {
+  font-size: 1.5em;
+}
+
+.sizeStyleHuge {
+  font-size: 2.0em;
+}
+/* End Size Selector */
+
+.contentTitleInput {
+  background-color: #606060;
+  width: 200px;
+  font-weight: bold;
 }

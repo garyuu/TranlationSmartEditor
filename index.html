@@ -3,28 +3,73 @@
 <head>
   <title>TranslationSmartEditor</title>
   <meta charset="utf-8" />
-  <!--<script src="jquery-3.3.1.slim.js"></script>-->
-  <script src="subtitle.js"></script>
-  <script src="script.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="scripts/data_list.js"></script>
+  <script src="scripts/data_transformer.js"></script>
+  <script src="scripts/data_interface.js"></script>
+  <script src="scripts/vue_components.js"></script>
+  <script src="scripts/vue_elements.js" defer></script>
+  <script src="scripts/main.js" defer></script>
   <link href="style.css" rel="stylesheet">
 </head>
 <body>
-  <aside style="float:left;">
-    <input id="videobrowser" type="file" onchange="loadVideo(this)" accept="video/*"/>
-    <br />
-    <video id="video" onclick="if(this.paused){this.play();}else{this.pause();}"></video>
-    <div id="savebutton">Save</div>
-    <textarea id="jsondisplay">123</textarea>
-    <div id="jsoncontrol">
-      <button onclick="copyContent(document.getElementById('jsondisplay'))">複製JSON</button>
-      <br />
-      <br />
-      <button onclick="importJSON(document.getElementById('jsondisplay'))">導入JSON</button>
+  <aside>
+    <div id="videoArea">
+      <input id="videoBrowser" type="file" ref="fileinput" @change="loadVideo()" accept="video/*" />
+      <video id="video" ref="video" @click="clickVideo()" @timeupdate="onTimeUpdate()" :src="videoSource" controls></video>
+      <div id="recordButton" class="noselect" @click="clickRecord()">{{ recordButtonText }}</div>
+    </div>
+    <div id="jsonArea">
+      <textarea id="jsonDisplay" ref="json"></textarea>
+      <div id="jsonControl">
+        <!--
+        <div id="exportJSONButton" class="button noselect" @click="exportJSON()">{{ exportButtonText }}</div>
+        -->
+        <a id="exportJSONButton" class="button noselect" href="" download="" @click="exportJSONFile()" ref="export">{{ exportButtonText }}</a>
+        <div id="importJSONButton" class="button noselect" @click="importJSON()">{{ importButtonText }}</div>
+      </div>
     </div>
   </aside>
-  <main id="main">
-    <button onclick="SList = new SubtitleList();drawHTML();">清空</button>
-    <!--<ul id='timeList'></ul>-->
+  <main id="editArea">
+    <div id="header">
+      <input id="title" type="text" v-model="title" @change="titleChange()" />
+      <div id="resetButton" class="button noselect" @click="resetAll">{{ resetButtonText }}</div>
+      <hr />
+    </div>
+    <div>
+      <section v-for="(group, groupIndex) in groups" :id="group.frametime" @click="jumpToTime(group.frametime)">
+        <div class="groupTitle">
+          <span class="groupId">{{ groupIndex }}</span>
+          <time>{{ group.frametime }}</time>
+        </div>
+        <article v-for="(content, contentIndex) in group.contents" :id="groupIndex + '-' + contentIndex" tabindex="0">
+          <input class="isRender" type="checkbox" v-model="content.isRender" @change="groupChange(groupIndex)" />
+          <type-list :defaultindex="content.type" @type-change="changeType(groupIndex, contentIndex, $event)"></type-list>
+          <div class="contentExtra">
+            <div class="copyButton button noselect" @click="copyContent(groupIndex, contentIndex)">Copy</div>
+            <div class="contentTitle">
+              <label v-if="content.showTitle">
+                {{ content.titleLabel }}
+                <input :class="colorClass(content.color) + ' contentTitleInput'" type="text" v-model="content.title" @change="groupChange(groupIndex)" />
+              </label>
+            </div>
+            <div>
+              <color-selector  v-if="content.showColor"
+                              :defaultindex="content.color"
+                              @color-change="changeColor(groupIndex, contentIndex, $event)"></color-selector>
+            </div>
+            <div>
+              <size-selector  v-if="content.showSize"
+                             :defaultindex="content.size"
+                             @size-change="changeSize(groupIndex, contentIndex, $event)"></size-selector>
+            </div>
+            <div class="deleteButton noselect" @click="deleteContent(groupIndex, contentIndex)">✕</div>
+          </div>
+          <textarea :class="sizeClass(content.size)" rows="4" cols="40" placeholder="輸入譯文……" v-model="content.content" @change="groupChange(groupIndex)"></textarea>
+        </article>
+      </section>
+    </div>
   </main>
 </body>
 </html>
