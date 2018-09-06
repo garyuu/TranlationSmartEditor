@@ -300,18 +300,21 @@ class DataInterface {
     };
     return this.sendHttpRequest(data)
       .then((resp) => {
+        let obj = '';
         try {
-          const obj = JSON.parse(resp);
+          obj = JSON.parse(resp);
         }
         catch (e) {
           throw e + '\n' + resp;
         }
-        if (obj.status) {
-          DataInterface.importJSON(obj.message);
-          console.log("JSON saved!");
-        }
-        else {
-          throw obj.message;
+        finally {
+          if (obj.status) {
+            DataInterface.importJSON(obj.message);
+            console.log("JSONi loaded!");
+          }
+          else {
+            throw obj.message;
+          }
         }
       })
       .catch((e) => {
@@ -329,7 +332,7 @@ class DataInterface {
       .then((resp) => {
         const obj = JSON.parse(resp);
         if (obj.status) {
-          console.log("JSON loaded!");
+          console.log("JSON saved!");
         }
         else {
           throw obj.message;
