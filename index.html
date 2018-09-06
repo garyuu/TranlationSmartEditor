@@ -38,7 +38,7 @@
       <input id="password" type="password" />
       <div id="loadButton" class="button noselect" @click="loadStorage">{{ loadButtonText }}</div>
       <div id="saveButton" class="button noselect" @click="saveStorage">{{ saveButtonText }}</div>
-      <img id="spinner" src="spinnerSrc" width="spinnerWidth" height="spinnerHeight" v-show="showSpinner"/>
+      <img id="spinner" :src="spinnerSrc" :width="spinnerWidth" :height="spinnerHeight" v-show="showSpinner"/>
       <hr />
     </div>
     <div>

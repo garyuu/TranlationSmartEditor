@@ -262,6 +262,7 @@ class DataInterface {
   static encodeFormData(data) {
     if (!data) return "";    // Always return a string
     var pairs = [];          // To hold name=value pairs
+    console.log(data);
     for (var name in data) {                                  // For each name
         if (!data.hasOwnProperty(name)) continue;            // Skip inherited
         if (typeof data[name] === "function") continue;      // Skip methods
@@ -289,13 +290,13 @@ class DataInterface {
       xhr.onerror = function (){
         reject(xhr.statusText);
       };
-      xhr.send(this.encodeFormData(data));
+      xhr.send(DataInterface.encodeFormData(data));
     });
   }
 
   static loadFromStorage() {
     let data = {
-        password: $('#password').value,
+        password: $('#password')[0].value,
         title: this.instance.title
     };
     return this.sendHttpRequest(data)
@@ -303,26 +304,6 @@ class DataInterface {
         const obj = JSON.parse(resp);
         if (obj.status) {
           DataInterface.importJSON(obj.message);
-        }
-        else {
-          throw obj.message;
-        }
-      })
-      .catch((e) => {
-        console.logError(e);
-      });
-  }
-
-  static saveToStorage() {
-    let data = {
-        password: $('#password').value,
-        title: this.instance.title,
-        content: this.exportJSON()
-    };
-    return this.sendHttpRequest(data)
-      .then((resp) => {
-        const obj = JSON.parse(resp);
-        if (obj.status) {
           console.log("JSON saved!");
         }
         else {
@@ -330,8 +311,28 @@ class DataInterface {
         }
       })
       .catch((e) => {
-        console.logError(e);
+        console.error(e);
       });
+  }
 
+  static saveToStorage() {
+    let data = {
+        password: $('#password')[0].value,
+        title: this.instance.title,
+        content: this.exportJSON()
+    };
+    return this.sendHttpRequest(data)
+      .then((resp) => {
+        const obj = JSON.parse(resp);
+        if (obj.status) {
+          console.log("JSON loaded!");
+        }
+        else {
+          throw obj.message;
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   }
 }

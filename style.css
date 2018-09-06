@@ -130,6 +130,13 @@ main {
   font-size: 14px;
 }
 
+#loadButton, #saveButton {
+  display: inline-block;
+  width: 100px;
+  line-height: 30px;
+  font-size: 18px;
+}
+
 article {
   display: block;
   width: 80%;

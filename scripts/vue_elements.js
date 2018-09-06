@@ -116,15 +116,19 @@ editArea = new Vue({
     copyContent: function(groupId, contentId) {
       DataInterface.copy($('#' + groupId + '-' + contentId + " textarea"))
     },
-    loadStorage: async function() {
+    loadStorage: function() {
       this.showSpinner = true;
-      await DataInterface.loadFromStorage();
-      this.showSpinner = false;
+      DataInterface.loadFromStorage()
+          .then(() => {
+            this.showSpinner = false;
+          });
     },
     saveStorage: function() {
       this.showSpinner = true;
-      await DataInterface.saveToStorage();
-      this.showSpinner = false;
+      DataInterface.saveToStorage()
+          .then(() => {
+            this.showSpinner = false;
+          });
     },
   },
 })
