@@ -262,7 +262,6 @@ class DataInterface {
   static encodeFormData(data) {
     if (!data) return "";    // Always return a string
     var pairs = [];          // To hold name=value pairs
-    console.log(data);
     for (var name in data) {                                  // For each name
         if (!data.hasOwnProperty(name)) continue;            // Skip inherited
         if (typeof data[name] === "function") continue;      // Skip methods
@@ -301,7 +300,12 @@ class DataInterface {
     };
     return this.sendHttpRequest(data)
       .then((resp) => {
-        const obj = JSON.parse(resp);
+        try {
+          const obj = JSON.parse(resp);
+        }
+        catch (e) {
+          throw e + '\n' + resp;
+        }
         if (obj.status) {
           DataInterface.importJSON(obj.message);
           console.log("JSON saved!");
