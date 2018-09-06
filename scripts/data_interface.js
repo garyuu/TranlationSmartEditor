@@ -258,4 +258,85 @@ class DataInterface {
       this.slideToContent(targetContent)
     }
   }
+
+  static encodeFormData(data) {
+    if (!data) return "";    // Always return a string
+    var pairs = [];          // To hold name=value pairs
+    for (var name in data) {                                  // For each name
+        if (!data.hasOwnProperty(name)) continue;            // Skip inherited
+        if (typeof data[name] === "function") continue;      // Skip methods
+        var value = data[name].toString();                   // Value as string
+        name = encodeURIComponent(name.replace(" ", "+"));   // Encode name
+        value = encodeURIComponent(value.replace(" ", "+")); // Encode value
+        pairs.push(name + "=" + value);   // Remember name=value pair
+    }
+    return pairs.join('&'); // Return joined pairs separated with &
+	}
+
+  static sendHttpRequest(data) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "storage.php");
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=UTF-8');
+      xhr.onload = function (){
+        if (200 <= xhr.status && xhr.status <= 299) {
+            resolve(xhr.responseText);
+				}
+        else {
+            reject(xhr.statusText);
+        }
+      };
+      xhr.onerror = function (){
+        reject(xhr.statusText);
+      };
+      xhr.send(DataInterface.encodeFormData(data));
+    });
+  }
+
+  static loadFromStorage() {
+    let data = {
+        password: $('#password')[0].value,
+        title: this.instance.title
+    };
+    return this.sendHttpRequest(data)
+      .then((resp) => {
+        try {
+          const obj = JSON.parse(resp);
+        }
+        catch (e) {
+          throw e + '\n' + resp;
+        }
+        if (obj.status) {
+          DataInterface.importJSON(obj.message);
+          console.log("JSON saved!");
+        }
+        else {
+          throw obj.message;
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }
+
+  static saveToStorage() {
+    let data = {
+        password: $('#password')[0].value,
+        title: this.instance.title,
+        content: this.exportJSON()
+    };
+    return this.sendHttpRequest(data)
+      .then((resp) => {
+        const obj = JSON.parse(resp);
+        if (obj.status) {
+          console.log("JSON loaded!");
+        }
+        else {
+          throw obj.message;
+        }
+      })
+      .catch((e) => {
+        console.error(e);
+      });
+  }
 }

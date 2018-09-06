@@ -69,11 +69,15 @@ editArea = new Vue({
   data: {
     title: '',
     groups: [],
+    resetButtonText: 'ResetAll',
+    loadButtonText: 'LOAD',
+    saveButtonText: 'SEND',
+    spinnerSrc: 'images/spinner.gif',
+    spinnerWidth: '32',
+    spinnerHeight: '32',
+    showSpinner: false,
   },
   computed: {
-    resetButtonText: function(){
-      return 'ResetAll'
-    }
   },
   methods: {
     resetAll: function() {
@@ -111,6 +115,20 @@ editArea = new Vue({
     },
     copyContent: function(groupId, contentId) {
       DataInterface.copy($('#' + groupId + '-' + contentId + " textarea"))
-    }
+    },
+    loadStorage: function() {
+      this.showSpinner = true;
+      DataInterface.loadFromStorage()
+          .then(() => {
+            this.showSpinner = false;
+          });
+    },
+    saveStorage: function() {
+      this.showSpinner = true;
+      DataInterface.saveToStorage()
+          .then(() => {
+            this.showSpinner = false;
+          });
+    },
   },
 })

@@ -23,8 +23,12 @@ class DataTransformer {
   }
 
   static stringify(obj) {
-    obj.ver = DATA_VERSION
-    return JSON.stringify(obj)
+    var result = {
+        title: obj.title,
+        groups: obj.groups,
+        ver: DATA_VERSION,
+    }
+    return JSON.stringify(result)
   }
 
   static version1(obj) {
