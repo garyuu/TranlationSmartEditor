@@ -22,9 +22,14 @@ if (isset($_POST['password'])) {
                     fclose($fp);
                 }
                 else {
-                    $fp = fopen($filename, 'r');
-                    $result['message'] = fread($fp, filesize($filename));
-                    fclose($fp);
+                    if (file_exist($filename)) {
+                        $fp = fopen($filename, 'r');
+                        $result['message'] = fread($fp, filesize($filename));
+                        fclose($fp);
+                    }
+                    else {
+                        throw new Exception("No file named this title");
+                    }
                 }
                 $result['status'] = true;
             }
