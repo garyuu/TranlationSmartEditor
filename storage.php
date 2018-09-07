@@ -37,7 +37,7 @@ if (isset($_POST['password'])) {
         }
     }
     else {
-        $result['message'] = "Wrong password: ".md5($_POST['password'])." HASH: ".$PASSWORD_HASH." ".strcmp(md5($_POST['password']), $PASSWORD_HASH);
+        $result['message'] = "Wrong password";
     }
 }
 else {

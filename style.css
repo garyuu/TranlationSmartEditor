@@ -143,6 +143,10 @@ main {
   font-size: 18px;
 }
 
+#spinner {
+  display: inline-block;
+}
+
 article {
   display: block;
   width: 80%;

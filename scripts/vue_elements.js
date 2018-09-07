@@ -72,10 +72,13 @@ editArea = new Vue({
     resetButtonText: 'ResetAll',
     loadButtonText: 'LOAD',
     saveButtonText: 'SEND',
-    spinnerSrc: 'images/spinner.gif',
-    spinnerWidth: '32',
-    spinnerHeight: '32',
+    spinnerSrc: this.imageSpinner,
+    spinnerWidth: '24',
+    spinnerHeight: '24',
     showSpinner: false,
+    imageSpinner: 'images/spinner.gif',
+    imageSuccess: 'images/Success.png',
+    imageFailed: 'images/Failed.png',
   },
   computed: {
   },
@@ -119,16 +122,24 @@ editArea = new Vue({
     loadStorage: function() {
       this.showSpinner = true;
       DataInterface.loadFromStorage()
-          .then(() => {
-            this.showSpinner = false;
-          });
+          .then(((status) => {
+            this.spinnerSrc = status ? this.imageSuccess : this.imageFailed;
+            setTimeout(() => {
+                this.showSpinner = false;
+                this.spinnerSrc = this.imageSpinner;
+            }, 2000);
+          }).bind(this));
     },
     saveStorage: function() {
       this.showSpinner = true;
       DataInterface.saveToStorage()
-          .then(() => {
-            this.showSpinner = false;
-          });
+          .then(((status) => {
+            this.spinnerSrc = status ? this.imageSuccess : this.imageFailed;
+            setTimeout(() => {
+                this.showSpinner = false;
+                this.spinnerSrc = this.imageSpinner;
+            }, 2000);
+          }).bind(this));
     },
   },
 })
