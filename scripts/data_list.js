@@ -12,8 +12,6 @@ const TypeDataList = [
   {
     name: '註解/上海/空耳',
     data: {
-      titleLabel: '',
-      showTitle: false,
       showColor: true,
       showSize: true,
       defaultColorIndex: 5
@@ -24,7 +22,6 @@ const TypeDataList = [
     data: {
       titleLabel: '標題',
       showTitle: true,
-      showColor: false,
       showSize: true,
       defaultColorIndex: 0
     }
@@ -32,10 +29,13 @@ const TypeDataList = [
   {
     name: '俳句',
     data: {
-      titleLabel: '',
-      showTitle: false,
-      showColor: false,
-      showSize: false,
+      defaultColorIndex: 0
+    }
+  },
+  {
+    name: '戰鬥資訊',
+    data: {
+      battle: true,
       defaultColorIndex: 0
     }
   },

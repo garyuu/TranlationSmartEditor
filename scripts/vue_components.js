@@ -106,7 +106,7 @@ Vue.component('color-selector', {
 Vue.component('size-selector', {
   props: ['defaultindex', 'size-change'],
   computed: {
-    sizeList: function(){
+      sizeList: function(){
       return SizeDataList
     }
   },
@@ -122,4 +122,39 @@ Vue.component('size-selector', {
                    selectorclass="sizeSelector"
                    listclass="sizeList"
              ></drop>`
+})
+
+Vue.component('battle-info-list', {
+  props: ['list', 'change'],
+  methods: {
+    addInfo: function(){
+      this.list.push([0, '']);
+      this.contentChange();
+    },
+    removeInfo: function(index){
+      this.list.splice(index, 1);
+      this.contentChange();
+    },
+    contentChange: function(){
+      this.$emit('change');
+    },
+    colorChange: function(index, color){
+      this.list[index][0] = color;
+      this.contentChange();
+    }
+  },
+  template: `<div class="battleFrame">
+               <div class="battle" v-for="(e, index) in list">
+                 <div class="battleSide">
+                   <div class="removeButton noselect" @click="removeInfo(index)">
+                     ✕
+                   </div>
+                   <color-selector class="battleColor" :defaultindex="e[0]" @color-change="colorChange(index, $event)"></color-selector>
+                 </div>
+                 <textarea class="battleContent" v-model="e[1]" @change="contentChange()"></textarea>
+               </div>
+               <div class="addButton noselect" @click="addInfo()">
+                 ＋
+               </div>
+             </div>`
 })

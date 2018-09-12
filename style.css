@@ -181,6 +181,41 @@ article textarea:focus {
   box-shadow: 0 0 2px 4px #ff7070;
 }
 
+.battleFrame {
+    margin-bottom: 5px;
+}
+
+.battle {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.battleSide {
+  display: inline-block;
+}
+
+.battleContent {
+  width: 80px;
+  display: inline-block;
+  vertical-align: bottom;
+}
+
+.addButton {
+  display: inline-block;
+  height: 60px;
+  line-height: 60px;
+  vertical-align: bottom;
+}
+
+.removeButton {
+  display:block;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  vertical-align: top;
+  text-align: center;
+}
+
 .groupId {
   display: inline-block;
   width: 40px;
@@ -326,6 +361,13 @@ time {
 .colorBlockPurple {
   color: #E80CED;
   background-color: #E80CED;
+}
+
+.battleColor, .battleColor .colorSelector {
+  top: 0;
+  width: 20px;
+  height: 40px;
+  display: block;
 }
 /* End Color Selector */
 
