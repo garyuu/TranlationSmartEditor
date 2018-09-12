@@ -22,7 +22,7 @@ if (isset($_POST['password'])) {
                     fclose($fp);
                 }
                 else {
-                    if (file_exist($filename)) {
+                    if (file_exists($filename)) {
                         $fp = fopen($filename, 'r');
                         $result['message'] = fread($fp, filesize($filename));
                         fclose($fp);

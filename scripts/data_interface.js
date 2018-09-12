@@ -2,16 +2,19 @@ let __dataInterface
 
 class Content {
   constructor(type, isRender, title, color, size,
-              titleLabel, showTitle, showColor, showSize){
+              titleLabel, showTitle, showColor, showSize, battle){
     this.type = type
-    this.isRender = isRender
-    this.title = title
+    this.isRender = isRender || true
+    this.title = title || ''
     this.color = color
-    this.size = size
-    this.titleLabel = titleLabel
-    this.showTitle = showTitle
-    this.showColor = showColor
-    this.showSize = showSize
+    this.size = size || 1
+    this.titleLabel = titleLabel || ''
+    this.showTitle = showTitle || false
+    this.showColor = showColor || false
+    this.showSize = showSize || false
+    this.battle = battle || false
+    this.content = ''
+    this.battleInfo = [[], []]
   }
 }
 
@@ -74,7 +77,7 @@ class DataInterface {
     const cIndex = this.instance.groups[index].contents.length
     this.instance.groups[index].contents.push(new Content(
         0, true, "", typeData.defaultColorIndex, 1, typeData.titleLabel,
-        typeData.showTitle, typeData.showColor, typeData.showSize))
+        typeData.showTitle, typeData.showColor, typeData.showSize, typeData.battle))
     this.saveGroupToLocalStorage(index)
     const targetContent = '#' + index + '-' + cIndex;
     const slideFunc = this.slideToContent
@@ -143,10 +146,11 @@ class DataInterface {
     let content = this.instance.groups[groupId].contents[contentId]
     const data = TypeDataList[index].data
     content.type = index
-    content.titleLabel = data.titleLabel
-    content.showTitle = data.showTitle
-    content.showColor = data.showColor
-    content.showSize = data.showSize
+    content.titleLabel = data.titleLabel || '';
+    content.showTitle = data.showTitle || false;
+    content.showColor = data.showColor || false;
+    content.showSize = data.showSize || false;
+    content.battle = data.battle || false
     content.color = data.defaultColorIndex
   }
 
