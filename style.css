@@ -196,8 +196,11 @@ article textarea:focus {
 
 .battleContent {
   width: 80px;
+  height: 55px;
   display: inline-block;
   vertical-align: bottom;
+  font-size: 0.8em;
+  line-height: 0.8em;
 }
 
 .addButton {

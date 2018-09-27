@@ -1,4 +1,4 @@
-const DATA_VERSION = 1
+const DATA_VERSION = 2
 
 class DataTransformer {
   static parse(json) {
@@ -6,12 +6,20 @@ class DataTransformer {
     switch (obj.ver) {
       case 1:
         try {
-          return this.version1(obj)
+          return this.version1(obj);
         }
         catch(e) {
-          throw e
+          throw e;
         }
-        break
+        break;
+      case 2:
+        try {
+          return this.version2(obj);
+        }
+        catch(e) {
+          throw e;
+        }
+        break;
       default:
         try {
           return this.version0(obj)
@@ -31,10 +39,6 @@ class DataTransformer {
     return JSON.stringify(result)
   }
 
-  static version1(obj) {
-    return obj
-  }
-
   static version0(obj) {
     let output = {title: obj.title, groups: []}
     for (let i in obj.list)
@@ -52,6 +56,20 @@ class DataTransformer {
       output.groups.push(group)
     }
     return output
+  }
+
+  static version1(obj) {
+    for (let group of obj.groups) {
+      for (let content of group.contents) {
+        content.content = content.content || '';
+        content.battleInfo = content.battleInfo || [[], []];
+      }
+    }
+    return obj;
+  }
+
+  static version2(obj) {
+    return obj;
   }
 
   static getColorIndex(color) {

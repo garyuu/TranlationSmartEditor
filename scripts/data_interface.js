@@ -143,15 +143,17 @@ class DataInterface {
   }
 
   static changeContentType(groupId, contentId, index) {
-    let content = this.instance.groups[groupId].contents[contentId]
-    const data = TypeDataList[index].data
-    content.type = index
+    let content = this.instance.groups[groupId].contents[contentId];
+    const data = TypeDataList[index].data;
     content.titleLabel = data.titleLabel || '';
     content.showTitle = data.showTitle || false;
     content.showColor = data.showColor || false;
     content.showSize = data.showSize || false;
-    content.battle = data.battle || false
-    content.color = data.defaultColorIndex
+    content.battle = data.battle || false;
+    content.color = data.defaultColorIndex;
+    content.content = content.content || '';
+    content.battleInfo = content.battleInfo || [[],[]];
+    content.type = index;
   }
 
   static changeContentColor(groupId, contentId, index) {

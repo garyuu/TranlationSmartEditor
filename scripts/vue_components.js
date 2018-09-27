@@ -3,7 +3,7 @@ Vue.component('drop',{
   data: function(){
     return {
       showList: false,
-      index: this.defaultindex ? this.defaultindex : 0
+      index: this.defaultindex || 0
     }
   },
   computed: {
@@ -35,6 +35,11 @@ Vue.component('drop',{
       else {
         return ''
       }
+    }
+  },
+  watch: {
+    defaultindex: function(newIndex, oldIndex) {
+      this.change(newIndex);
     }
   },
   template:  `<div class="dropFrame" :class="frameclass">
@@ -125,7 +130,7 @@ Vue.component('size-selector', {
 })
 
 Vue.component('battle-info-list', {
-  props: ['list', 'change'],
+  props: ['list', 'change', 'add', 'remove', 'changeColor'],
   methods: {
     addInfo: function(){
       this.list.push([0, '']);
