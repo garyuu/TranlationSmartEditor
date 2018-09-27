@@ -3,18 +3,18 @@ let __dataInterface
 class Content {
   constructor(type, isRender, title, color, size,
               titleLabel, showTitle, showColor, showSize, battle){
-    this.type = type
-    this.isRender = isRender || true
-    this.title = title || ''
-    this.color = color
-    this.size = size || 1
-    this.titleLabel = titleLabel || ''
-    this.showTitle = showTitle || false
-    this.showColor = showColor || false
-    this.showSize = showSize || false
-    this.battle = battle || false
-    this.content = ''
-    this.battleInfo = [[], []]
+    this.type = type;
+    this.isRender = isRender || true;
+    this.title = title || '';
+    this.color = color || 0;
+    this.size = size || 1;
+    this.titleLabel = titleLabel || '';
+    this.showTitle = showTitle || false;
+    this.showColor = showColor || false;
+    this.showSize = showSize || false;
+    this.battle = battle || false;
+    this.content = '';
+    this.battleInfo = [[], []];
   }
 }
 
@@ -76,7 +76,7 @@ class DataInterface {
     const typeData = TypeDataList[0].data
     const cIndex = this.instance.groups[index].contents.length
     this.instance.groups[index].contents.push(new Content(
-        0, true, "", typeData.defaultColorIndex, 1, typeData.titleLabel,
+        0, true, "", typeData.defaultColorIndex, typeData.defaultSizeIndex, typeData.titleLabel,
         typeData.showTitle, typeData.showColor, typeData.showSize, typeData.battle))
     this.saveGroupToLocalStorage(index)
     const targetContent = '#' + index + '-' + cIndex;
@@ -150,7 +150,8 @@ class DataInterface {
     content.showColor = data.showColor || false;
     content.showSize = data.showSize || false;
     content.battle = data.battle || false;
-    content.color = data.defaultColorIndex;
+    content.color = data.defaultColorIndex || 0;
+    content.size = data.defaultSizeIndex !== undefined ? data.defaultSizeIndex : 1;
     content.content = content.content || '';
     content.battleInfo = content.battleInfo || [[],[]];
     content.type = index;

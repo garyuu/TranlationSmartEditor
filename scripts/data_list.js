@@ -23,13 +23,12 @@ const TypeDataList = [
       titleLabel: '標題',
       showTitle: true,
       showSize: true,
-      defaultColorIndex: 0
+      defaultSizeIndex: 0
     }
   },
   {
     name: '俳句',
     data: {
-      defaultColorIndex: 0
     }
   },
   {
