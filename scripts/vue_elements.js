@@ -93,7 +93,7 @@ editArea = new Vue({
       DataInterface.deleteContent(groupId, contentId)
     },
     sizeClass: function(sizeIndex) {
-      sizeIndex = sizeIndex || 1;
+      sizeIndex = sizeIndex !== undefined ? sizeIndex : 1;
       return SizeDataList[sizeIndex].class
     },
     colorClass: function(colorIndex) {

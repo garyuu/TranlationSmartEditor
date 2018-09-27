@@ -4,10 +4,10 @@ class Content {
   constructor(type, isRender, title, color, size,
               titleLabel, showTitle, showColor, showSize, battle){
     this.type = type;
-    this.isRender = isRender || true;
+    this.isRender = isRender !== undefined ? isRender : true;
     this.title = title || '';
     this.color = color || 0;
-    this.size = size || 1;
+    this.size = size !== undefined ? size : 1;
     this.titleLabel = titleLabel || '';
     this.showTitle = showTitle || false;
     this.showColor = showColor || false;
