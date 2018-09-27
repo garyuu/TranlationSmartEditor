@@ -121,6 +121,10 @@ editArea = new Vue({
     copyContent: function(groupId, contentId) {
       DataInterface.copy($('#' + groupId + '-' + contentId + " textarea"))
     },
+    duplicateTitle: function(groupId, contentId) {
+      DataInterface.duplicateTitle(groupId, contentId);
+      this.groupChange(groupId);
+    },
     loadStorage: function() {
       this.showSpinner = true;
       DataInterface.loadFromStorage()

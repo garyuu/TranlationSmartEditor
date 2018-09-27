@@ -134,6 +134,26 @@ class DataInterface {
     document.execCommand('copy')
   }
 
+  static duplicateTitle(groupId, contentId) {
+    let sourceContent;
+    if (contentId != 0) {
+      sourceContent = this.instance.groups[groupId].contents[contentId - 1];
+    }
+    else {
+      if (groupId == 0)
+        return;
+      const contents = this.instance.groups[groupId - 1].contents;
+      sourceContent = contents[contents.length - 1];
+    }
+    const targetContent = this.instance.groups[groupId].contents[contentId];
+    if (targetContent.showTitle) {
+        targetContent.title = sourceContent.title;
+        if (targetContent.showColor) {
+          targetContent.color = sourceContent.color;
+        }
+    }
+  }
+
   static resetEditor() {
     this.instance.title = ''
     this.instance.groups = []

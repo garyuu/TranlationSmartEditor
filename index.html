@@ -68,6 +68,7 @@
                              :defaultindex="content.size"
                              @size-change="changeSize(groupIndex, contentIndex, $event)"></size-selector>
             </div>
+            <div v-if="content.showTitle" class="duplicateButton button noselect" @click="duplicateTitle(groupIndex, contentIndex)">Dup</div>
             <div class="deleteButton noselect" @click="deleteContent(groupIndex, contentIndex)">✕</div>
           </div>
           <textarea v-if="!content.battle"
