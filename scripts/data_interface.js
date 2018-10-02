@@ -87,9 +87,13 @@ class DataInterface {
     }, 100)
   }
 
+  static jumpToIndex(index) {
+    this.slideToContent('#' + index + '-0');
+  }
+
   static slideToContent(targetContent){
-      $('html,body').animate({scrollTop: $(targetContent).offset().top - 100}, 500)
-      $(targetContent).focus()
+    $('html,body').animate({scrollTop: $(targetContent).offset().top - 100}, 500)
+    $(targetContent).focus()
   }
 
   static findNearestGroupIndex(frameTime) {
@@ -230,7 +234,7 @@ class DataInterface {
     localStorage[index.toString()] = JSON.stringify(this.instance.groups[index])
   }
 
-  static loadDataFromLocalStorage() {
+  static loadDataFromLocalStorage(videoArea) {
     if (localStorage['title'] !== undefined){
       this.instance.title = localStorage['title']
       this.instance.groups = []
@@ -248,7 +252,20 @@ class DataInterface {
         */
         this.instance.groups.push(obj)
       }
+      videoArea.jumpIndex = this.findLastIndex();
     }
+  }
+
+  static findLastIndex() {
+    for (let i = this.instance.groups.length - 1; i >= 0; i--) {
+      for (let j = this.instance.groups[i].contents.length - 1; j >= 0; j--) {
+        let content = this.instance.groups[i].contents[j]
+        if (content.content != '' || content.battleInfo[0].length != 0 || content.battleInfo[1].length != 0) {
+          return i;
+        }
+      }
+    }
+    return 0;
   }
 
   static refreshLocalStorage() {

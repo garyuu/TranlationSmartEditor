@@ -8,6 +8,7 @@ videoArea = new Vue({
   data: {
     videoSource: null,
     recordButtonText: 'Record',
+    jumpIndex: 0
   },
   methods: {
     loadVideo: function(){
@@ -40,6 +41,9 @@ videoArea = new Vue({
       if (!this.$refs.video.paused)
         DataInterface.focusCurrentContent(this.$refs.video.currentTime)
     },
+    jumpToIndex: function(){
+      DataInterface.jumpToIndex(this.jumpIndex);
+    }
   },
 })
 

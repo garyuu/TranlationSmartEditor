@@ -18,7 +18,13 @@
     <div id="videoArea">
       <input id="videoBrowser" type="file" ref="fileinput" @change="loadVideo()" accept="video/*" />
       <video id="video" ref="video" @click="clickVideo()" @timeupdate="onTimeUpdate()" :src="videoSource" controls></video>
-      <div id="recordButton" class="noselect" @click="clickRecord()">{{ recordButtonText }}</div>
+      <div id="videoExtra">
+        <div id="recordButton" class="noselect" @click="clickRecord()">{{ recordButtonText }}</div>
+        <div id="jumpPanel">
+          <input type="number" step="1" v-model="jumpIndex" size="1" />
+          <div class="button noselect" @click="jumpToIndex">Jump</div>
+        </div>
+      </div>
     </div>
     <div id="jsonArea">
       <textarea id="jsonDisplay" ref="json"></textarea>
