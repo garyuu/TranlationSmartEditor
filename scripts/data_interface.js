@@ -27,7 +27,8 @@ class Group {
 
 class DataInterface {
   constructor(element) {
-    this.TARGET = element
+    this.TARGET = element;
+    this.focusTextArea = null;
   }
 
   get title() {
@@ -384,5 +385,48 @@ class DataInterface {
         console.error(e);
         return false;
       });
+  }
+
+  static fastPaste(text) {
+    text = text || '';
+    const element = this.instance.focusTextArea;
+    if (element == null)
+        return null;
+    if (element.selectionStart || element.selectionStart == '0') {
+        const startPos = element.selectionStart;
+        const endPos = element.selectionEnd;
+        element.value = element.value.substring(0, startPos) +
+                        text +
+                        element.value.substring(endPos, element.value.length);
+        element.selectionStart = startPos + text.length;
+        element.selectionEnd = element.selectionStart;
+    }
+    else {
+        element.value += text;
+    }
+    return element;
+  }
+
+  static focusText(element) {
+    this.instance.focusTextArea = element;
+  }
+
+  static blurText(element) {
+    /*
+    if (this.instance.focusTextArea === element)
+        this.instance.focusTextArea = null;
+    */
+  }
+
+  static savePasteStr(ary) {
+    localStorage['paste'] = JSON.stringify(ary);
+  }
+
+  static loadPasteAry() {
+    const str = localStorage['paste'];
+    if (str !== undefined && str != null && str != '')
+      return JSON.parse(str);
+    else
+      return null;
   }
 }

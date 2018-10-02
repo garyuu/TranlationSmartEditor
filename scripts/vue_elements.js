@@ -147,5 +147,22 @@ editArea = new Vue({
             }, 2000);
           }).bind(this));
     },
+    fastPaste: function(str) {
+      const el = DataInterface.fastPaste(str);
+      if (el !== null)
+        el.dispatchEvent(new Event('input'));
+    },
+    focusText: function(event) {
+      DataInterface.focusText(event.target);
+    },
+    blurText: function(event) {
+      DataInterface.blurText(event.target);
+    },
+    savePasteStr: function(ary) {
+      DataInterface.savePasteStr(ary);
+    },
+    loadPasteAry: function() {
+      return DataInterface.loadPasteAry();
+    },
   },
 })

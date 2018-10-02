@@ -53,7 +53,7 @@ Vue.component('drop',{
                 </div>
               </div>
             `
-})
+});
 
 Vue.component('type-list', {
   props: ['defaultindex', 'type-change'],
@@ -74,7 +74,7 @@ Vue.component('type-list', {
                    selectorclass="typeSelector"
                    listclass="typeList"
              ></drop>`
-})
+});
 
 Vue.component('color-selector', {
   props: ['defaultindex', 'color-change'],
@@ -106,7 +106,7 @@ Vue.component('color-selector', {
                    :selectorclass="colorselector"
                    listclass="colorList"
              ></drop>`
-})
+});
 
 Vue.component('size-selector', {
   props: ['defaultindex', 'size-change'],
@@ -127,7 +127,7 @@ Vue.component('size-selector', {
                    selectorclass="sizeSelector"
                    listclass="sizeList"
              ></drop>`
-})
+});
 
 Vue.component('battle-info-list', {
   props: ['list', 'change', 'add', 'remove', 'changeColor'],
@@ -162,4 +162,29 @@ Vue.component('battle-info-list', {
                  ＋
                </div>
              </div>`
-})
+});
+
+Vue.component('paste-panel', {
+  props: ['defaultstr', 'paste', 'strchange'],
+  data: function() {
+    return {
+      strAry: this.defaultstr || ["", "", ""]
+    };
+  },
+  methods: {
+    fastPaste: function(index) {
+      this.$emit('paste', this.strAry[index]);
+    },
+    change: function() {
+      this.$emit('strchange', this.strAry);
+    }
+  },
+  template: `
+    <div class="pastePanel">
+      <div v-for="(str, index) in strAry">
+        <input type="text" v-model="strAry[index]" size="10" @input="change()" />
+        <div class="fastPasteButton button noselect" @click="fastPaste(index)">Paste</div>
+      </div>
+    </div>
+  `
+});

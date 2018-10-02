@@ -40,6 +40,9 @@
       <div id="saveButton" class="button noselect" @click="saveStorage">{{ saveButtonText }}</div>
       <img id="spinner" :src="spinnerSrc" :width="spinnerWidth" :height="spinnerHeight" v-show="showSpinner"/>
       <hr />
+      <paste-panel :defaultStr="loadPasteAry()"
+                   @paste="fastPaste($event)"
+                   @strchange="savePasteStr($event)"></paste-panel>
     </div>
     <div>
       <section v-for="(group, groupIndex) in groups" :id="group.frametime" @click="jumpToTime(group.frametime)">
@@ -55,7 +58,7 @@
             <div class="contentTitle">
               <label v-if="content.showTitle">
                 {{ content.titleLabel }}
-                <input :class="colorClass(content.color) + ' contentTitleInput'" type="text" v-model="content.title" @change="groupChange(groupIndex)" />
+                <input :class="colorClass(content.color) + ' contentTitleInput'" type="text" v-model="content.title" @input="groupChange(groupIndex)" />
               </label>
             </div>
             <div>
@@ -77,7 +80,9 @@
                     rows="4" cols="40"
                     placeholder="輸入譯文……"
                     v-model="content.content"
-                    @change="groupChange(groupIndex)"></textarea>
+                    @input="groupChange(groupIndex)"
+                    @focus="focusText($event)"
+                    @blur="blurText($event)"></textarea>
           <div v-if="content.battle" v-for="info in content.battleInfo">
             <battle-info-list :list="info"
                               @change="groupChange(groupIndex)"></battle-info-list>
