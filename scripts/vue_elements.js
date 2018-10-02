@@ -43,6 +43,9 @@ videoArea = new Vue({
     },
     jumpToIndex: function(){
       DataInterface.jumpToIndex(this.jumpIndex);
+    },
+    jumpToLast: function(){
+      DataInterface.jumpToLast();
     }
   },
 })

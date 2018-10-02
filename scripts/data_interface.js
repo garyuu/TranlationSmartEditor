@@ -81,14 +81,19 @@ class DataInterface {
         typeData.showTitle, typeData.showColor, typeData.showSize, typeData.battle))
     this.saveGroupToLocalStorage(index)
     const targetContent = '#' + index + '-' + cIndex;
-    const slideFunc = this.slideToContent
     setTimeout(function(){
-      slideFunc(targetContent)
-    }, 100)
+      this.slideToContent(targetContent)
+    }, 100).bind(this)
   }
 
   static jumpToIndex(index) {
     this.slideToContent('#' + index + '-0');
+  }
+
+  static jumpToLast() {
+    const pair = this.findLastContent();
+    if (pair != null)
+      this.slideToContent('#' + pair[0] + '-' + pair[1]);
   }
 
   static slideToContent(targetContent){
@@ -234,7 +239,7 @@ class DataInterface {
     localStorage[index.toString()] = JSON.stringify(this.instance.groups[index])
   }
 
-  static loadDataFromLocalStorage(videoArea) {
+  static loadDataFromLocalStorage() {
     if (localStorage['title'] !== undefined){
       this.instance.title = localStorage['title']
       this.instance.groups = []
@@ -252,20 +257,19 @@ class DataInterface {
         */
         this.instance.groups.push(obj)
       }
-      videoArea.jumpIndex = this.findLastIndex();
     }
   }
 
-  static findLastIndex() {
+  static findLastContent() {
     for (let i = this.instance.groups.length - 1; i >= 0; i--) {
       for (let j = this.instance.groups[i].contents.length - 1; j >= 0; j--) {
         let content = this.instance.groups[i].contents[j]
         if (content.content != '' || content.battleInfo[0].length != 0 || content.battleInfo[1].length != 0) {
-          return i;
+          return [i, j];
         }
       }
     }
-    return 0;
+    return null;
   }
 
   static refreshLocalStorage() {
