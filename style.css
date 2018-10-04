@@ -29,14 +29,14 @@ main {
 
 #videoExtra {
   display: block;
-  width: 400px;
+  width: 320px;
   margin: 5px auto 5px auto;
 }
 
 #recordButton {
-  width: 300px;
+  width: 250px;
   height: 80px;
-  background: url("images/savebutton.jpg");
+  background: url("images/savebutton.jpg") center;
   background-size: 300px 80px;
   font-size: 50px;
   text-align: center;
@@ -71,12 +71,12 @@ main {
 
 #jumpPanel {
   display: inline-block;
-  width: 80px;
+  width: 50px;
   margin-top: 10px;
 }
 
 #jumpPanel input[type=number] {
-  width: 80px;
+  width: 50px;
 }
 
 #jsonDisplay {
@@ -168,7 +168,11 @@ main {
   position: fixed;
   right: 0;
   top: 60px;
-  width: 150px;
+  width: 140px;
+}
+
+.pastePanel input {
+  width: 60px;
 }
 
 .fastPasteButton {
