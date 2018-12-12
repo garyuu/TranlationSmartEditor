@@ -38,6 +38,12 @@ const TypeDataList = [
       defaultColorIndex: 0
     }
   },
+  {
+    name: '當前回合',
+    data: {
+      defaultColorIndex: 5
+    }
+  },
 ]
 
 const ColorDataList = [
